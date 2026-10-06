@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10-sinf Fizika — 17-mavzu: Mexanik to‘lqinlar</title>
+<style>
+:root{
+  --bg:#f4f7fb; --card:#fff; --ink:#172033; --muted:#64748b;
+  --primary:#2563eb; --secondary:#7c3aed; --cyan:#0891b2;
+  --green:#16a34a; --red:#dc2626; --orange:#ea580c;
+  --border:#dbe3ef; --shadow:0 12px 30px rgba(30,50,90,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+button,input{font:inherit}
+.hero{background:linear-gradient(135deg,#172554,#2563eb 55%,#06b6d4);color:white;padding:44px 20px 34px;position:relative;overflow:hidden}
+.hero:before,.hero:after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.09)}
+.hero:before{width:280px;height:280px;right:-80px;top:-100px}.hero:after{width:180px;height:180px;left:-50px;bottom:-100px}
+.wrap{max-width:1180px;margin:auto;padding:0 18px;position:relative;z-index:1}
+.badge{display:inline-block;background:rgba(255,255,255,.15);padding:7px 13px;border-radius:999px;font-weight:700;font-size:14px}
+h1{font-size:clamp(30px,6vw,58px);line-height:1.05;margin:15px 0 10px}
+.hero p{font-size:18px;max-width:760px;color:#e0f2fe}
+nav{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.navin{max-width:1180px;margin:auto;display:flex;gap:8px;padding:10px 18px;overflow:auto}
+.navin button{white-space:nowrap;border:0;background:#eef2ff;color:#334155;border-radius:12px;padding:9px 13px;cursor:pointer;font-weight:700}
+.navin button:hover{background:#dbeafe;color:#1d4ed8}
+.progress{height:5px;background:#dbeafe}.progress i{display:block;height:100%;background:linear-gradient(90deg,#2563eb,#06b6d4);width:0;transition:.3s}
+main{max-width:1180px;margin:auto;padding:26px 18px 70px}
+section{background:var(--card);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow);padding:26px;margin:20px 0}
+section h2{margin-top:0;font-size:28px}
+.section-tag{color:var(--primary);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{border:1px solid var(--border);border-radius:17px;padding:18px;background:#fbfdff}
+.card h3{margin-top:0;color:#1e40af}
+.example{background:#eff6ff;border-left:5px solid var(--primary);padding:12px 15px;border-radius:10px}
+.note{background:#f5f3ff;border-left:5px solid var(--secondary);padding:12px 15px;border-radius:10px}
+.formula{font-size:30px;font-weight:900;text-align:center;background:linear-gradient(135deg,#eff6ff,#f5f3ff);padding:17px;border-radius:16px;color:#1e3a8a;margin:12px 0}
+.sim{background:#0b1220;border-radius:18px;padding:15px;color:#e2e8f0;margin-top:18px}
+canvas{display:block;width:100%;height:auto;border-radius:12px;background:#07111f}
+.controls{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-top:12px}
+.btn{border:0;border-radius:11px;padding:10px 14px;cursor:pointer;font-weight:800;background:#e2e8f0;color:#0f172a}
+.btn.primary{background:#2563eb;color:white}.btn.green{background:#16a34a;color:white}.btn.red{background:#dc2626;color:white}.btn.purple{background:#7c3aed;color:white}
+.btn:active{transform:translateY(1px)}
+.control{background:#172033;padding:9px 12px;border-radius:12px;min-width:150px}
+.control label{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;color:#cbd5e1}
+input[type=range]{width:100%;accent-color:#38bdf8}
+.legend{display:flex;flex-wrap:wrap;gap:14px;margin:10px 2px;font-size:13px}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px}.compress{background:#f97316}.rarefy{background:#38bdf8}.equil{background:#94a3b8}
+.toggle{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.toggle .active{background:#06b6d4;color:white}
+.kpi{font-size:24px;font-weight:900;color:#1d4ed8}
+.calc{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:end}
+.field label{display:block;font-weight:800;margin-bottom:5px}.field input{width:100%;padding:12px;border:1px solid var(--border);border-radius:11px}
+.result{margin-top:16px;padding:16px;border-radius:14px;background:#ecfdf5;border:1px solid #bbf7d0;font-size:24px;font-weight:900;color:#166534}
+.quiz{border:1px solid var(--border);border-radius:15px;padding:17px;margin:12px 0}
+.quiz h3{font-size:17px}.opts{display:grid;gap:8px}.opts button{text-align:left;background:#f8fafc;border:1px solid #cbd5e1;border-radius:10px;padding:10px;cursor:pointer}
+.opts button:hover{background:#eff6ff}.feedback{font-weight:800;margin-top:8px;min-height:24px}.ok{color:#15803d}.bad{color:#b91c1c}
+.answer{display:none;background:#f8fafc;border-radius:10px;padding:12px;margin-top:10px}.answer.show{display:block}
+footer{text-align:center;color:var(--muted);padding:30px}
+.small{font-size:13px;color:var(--muted)}
+.term{font-weight:900;color:#0f766e}
+.tablewrap{overflow:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{border:1px solid var(--border);padding:10px;text-align:left}th{background:#eff6ff}
+@media(max-width:800px){.grid,.grid3,.calc{grid-template-columns:1fr}section{padding:19px}.hero{padding-top:32px}.formula{font-size:24px}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">10-SINF • FIZIKA • 17-MAVZU</span>
+    <h1>MEXANIK TO‘LQINLAR</h1>
+    <p>Mexanik to‘lqinlarning hosil bo‘lishi, bo‘ylama va ko‘ndalang to‘lqinlar hamda to‘lqinlarning asosiy tavsiflarini interaktiv simulyatsiyalar orqali o‘rganamiz.</p>
+  </div>
+</header>
+
+<nav>
+  <div class="navin">
+    <button onclick="go('start')">🏠 Bosh sahifa</button>
+    <button onclick="go('r1')">1-reja</button>
+    <button onclick="go('r2')">2-reja</button>
+    <button onclick="go('calc')">🧮 Kalkulyator</button>
+    <button onclick="go('tests')">📝 Testlar</button>
+    <button onclick="go('problems')">📚 Masalalar</button>
+  </div>
+  <div class="progress"><i id="progress"></i></div>
+</nav>
+
+<main id="start">
+<section>
+  <div class="section-tag">Kirish</div>
+  <h2>Bugungi dars maqsadi</h2>
+  <div class="grid3">
+    <div class="card"><h3>🌊 1-reja</h3><p>Mexanik to‘lqinlar, bo‘ylama to‘lqinlar va siqilish-siyraklashishni tushunish.</p><button class="btn primary" onclick="go('r1')">Boshlash →</button></div>
+    <div class="card"><h3>📐 2-reja</h3><p>λ, A, T, f va v kattaliklarini hamda ular orasidagi formulalarni o‘rganish.</p><button class="btn purple" onclick="go('r2')">O‘rganish →</button></div>
+    <div class="card"><h3>🎯 Yakuniy nazorat</h3><p>Interaktiv testlar, kalkulyator va 3 ta amaliy masala bilan bilimni mustahkamlash.</p><button class="btn green" onclick="go('tests')">Tekshirish →</button></div>
+  </div>
+  <div class="note"><b>O‘rganish usuli:</b> avval tushunchani o‘qing, keyin simulyatsiyani boshqaring, so‘ng test va masalalar bilan bilimni tekshiring.</div>
+</section>
+
+<section id="r1">
+  <div class="section-tag">1-REJA</div>
+  <h2>Mexanik to‘lqinlar va bo‘ylama to‘lqinlar</h2>
+  <div class="grid">
+    <div class="card"><h3>🌊 Mexanik to‘lqin</h3><p><span class="term">Mexanik to‘lqin</span> — tebranishlarning elastik moddiy muhitda bir nuqtadan boshqasiga tarqalish jarayoni.</p><div class="example"><b>Misol:</b> suv yuzasidagi to‘lqin, prujinadagi siqilishlar, tovush.</div></div>
+    <div class="card"><h3>⚙️ Hosil bo‘lish sharti</h3><p>To‘lqin hosil bo‘lishi uchun muhitda tebranuvchi manba va tebranishni qo‘shni zarrachalarga uzatadigan o‘zaro ta’sir mavjud bo‘lishi kerak.</p><div class="example"><b>Misol:</b> prujinaning bir uchini itarsak, deformatsiya prujina bo‘ylab tarqaladi.</div></div>
+    <div class="card"><h3>🧩 Muhit zarur</h3><p>Mexanik to‘lqinlar moddiy muhitga bog‘liq. Ular vakuumda tarqalmaydi.</p><div class="example"><b>Misol:</b> kosmik vakuumda oddiy tovush to‘lqini tarqalmaydi.</div></div>
+    <div class="card"><h3>🏠 Hayotiy misollar</h3><p>Suv to‘lqinlari, tovush, arqon tebranishi, zilzila to‘lqinlari va prujinadagi tebranishlar — mexanik to‘lqinlarga misol.</p></div>
+  </div>
+
+  <h3>Bo‘ylama va ko‘ndalang to‘lqin</h3>
+  <div class="grid">
+    <div class="card"><h3>➡️ Bo‘ylama to‘lqin</h3><p>Zarrachalar to‘lqin tarqalish yo‘nalishi <b>bo‘ylab</b> oldinga-orqaga tebranadi. Unda <b>siqilish</b> va <b>siyraklashish</b> sohalari navbatlashadi.</p></div>
+    <div class="card"><h3>↕️ Ko‘ndalang to‘lqin</h3><p>Zarrachalar to‘lqin tarqalish yo‘nalishiga <b>tik</b> yo‘nalishda tebranadi. Grafikda tepalik va botiqlarni ko‘rish mumkin.</p></div>
+  </div>
+
+  <div class="card">
+    <h3>Bo‘ylama to‘lqinning muhim belgisi</h3>
+    <p><b>Siqilish</b> — zarrachalar bir-biriga yaqinlashgan soha. <b>Siyraklashish</b> — zarrachalar orasidagi masofa kattalashgan soha.</p>
+    <p><b>Tovush</b> gaz, suyuqlik va qattiq jismlarda mexanik, odatda bo‘ylama to‘lqin sifatida tarqaladi. Qattiq jismlarda ko‘ndalang mexanik to‘lqinlar ham tarqalishi mumkin.</p>
+  </div>
+
+  <div class="sim">
+    <h3>🎮 Jonli simulyatsiya: bo‘ylama va ko‘ndalang to‘lqin</h3>
+    <div class="toggle">
+      <button id="longBtn" class="btn primary active" onclick="setWaveType('long')">Bo‘ylama to‘lqin</button>
+      <button id="transBtn" class="btn" onclick="setWaveType('trans')">Ko‘ndalang to‘lqin</button>
+    </div>
+    <canvas id="mechanicalCanvas" width="1050" height="330"></canvas>
+    <div class="legend">
+      <span><i class="dot compress"></i>Siqilish</span>
+      <span><i class="dot rarefy"></i>Siyraklashish</span>
+      <span><i class="dot equil"></i>Muvozanat</span>
+    </div>
+    <div class="controls">
+      <button class="btn green" onclick="startMech()">▶ Boshlash</button>
+      <button class="btn red" onclick="stopMech()">⏸ To‘xtatish</button>
+      <button class="btn" onclick="resetMech()">↻ Qayta boshlash</button>
+      <div class="control"><label>Tezlik <span id="mSpeedVal">1.0×</span></label><input id="mSpeed" type="range" min=".2" max="2.5" step=".1" value="1"></div>
+    </div>
+  </div>
+  <p class="small">Animatsiyada yuqoridagi tugmalar orqali ikki xil to‘lqinni solishtiring. Bo‘ylama holatda zarrachalar gorizontal yo‘nalishda, ko‘ndalang holatda esa vertikal yo‘nalishda tebranadi.</p>
+</section>
+
+<section>
+  <div class="section-tag">1-REJA • MUSTAHKAMLASH</div>
+  <h2>Mini-test</h2>
+  <div id="quiz1"></div>
+</section>
+
+<section id="r2">
+  <div class="section-tag">2-REJA</div>
+  <h2>To‘lqinlar tavsiflari</h2>
+  <div class="grid3">
+    <div class="card"><h3>λ — To‘lqin uzunligi</h3><p>Bir xil fazada tebranayotgan eng yaqin ikki nuqta orasidagi masofa. Birligi: <b>metr (m)</b>.</p></div>
+    <div class="card"><h3>A — Amplituda</h3><p>Zarrachaning muvozanat holatidan eng katta siljishi. Birligi: <b>metr (m)</b>.</p></div>
+    <div class="card"><h3>T — Davr</h3><p>Bitta to‘liq tebranish uchun ketgan vaqt. Birligi: <b>sekund (s)</b>.</p></div>
+    <div class="card"><h3>f yoki ν — Chastota</h3><p>Bir sekunddagi tebranishlar soni. Birligi: <b>gerts (Hz)</b>.</p></div>
+    <div class="card"><h3>v — To‘lqin tezligi</h3><p>To‘lqinning muhit bo‘ylab tarqalish tezligi. Birligi: <b>m/s</b>.</p></div>
+    <div class="card"><h3>🔗 Bog‘lanish</h3><p>To‘lqin tezligi chastota va to‘lqin uzunligiga bog‘liq: <b>v = λ × f</b>.</p></div>
+  </div>
+
+  <h3>Asosiy formulalar</h3>
+  <div class="grid">
+    <div class="card"><div class="formula">T = 1 / f</div><p><b>T</b> — davr (s), <b>f</b> — chastota (Hz). Chastota ma’lum bo‘lsa, davrni topishda ishlatiladi.</p><div class="example">f = 5 Hz → T = 1/5 = <b>0,2 s</b></div></div>
+    <div class="card"><div class="formula">f = 1 / T</div><p><b>f</b> — chastota (Hz), <b>T</b> — davr (s). Davr ma’lum bo‘lsa, chastotani topishda ishlatiladi.</p><div class="example">T = 0,25 s → f = 1/0,25 = <b>4 Hz</b></div></div>
+    <div class="card"><div class="formula">v = λ × f</div><p><b>v</b> — m/s, <b>λ</b> — m, <b>f</b> — Hz. To‘lqin tezligini topish uchun ishlatiladi.</p><div class="example">λ = 4 m, f = 5 Hz → v = 4 × 5 = <b>20 m/s</b></div></div>
+    <div class="card"><div class="formula">λ = v / f</div><p><b>λ</b> — m, <b>v</b> — m/s, <b>f</b> — Hz. Tezlik va chastota ma’lum bo‘lsa ishlatiladi.</p><div class="example">v = 10 m/s, f = 5 Hz → λ = 10/5 = <b>2 m</b></div></div>
+  </div>
+
+  <div class="sim">
+    <h3>🎮 Katta interaktiv sinusoidal to‘lqin simulyatsiyasi</h3>
+    <canvas id="waveCanvas" width="1050" height="410"></canvas>
+    <div class="controls">
+      <button class="btn green" onclick="startWave()">▶ Boshlash</button>
+      <button class="btn red" onclick="stopWave()">⏸ To‘xtatish</button>
+      <button class="btn" onclick="resetWave()">↻ Qayta boshlash</button>
+      <div class="control"><label>Tezlik <span id="wSpeedVal">1.0×</span></label><input id="wSpeed" type="range" min=".2" max="2.5" step=".1" value="1"></div>
+      <div class="control"><label>Amplituda A <span id="ampVal">60 px</span></label><input id="amp" type="range" min="25" max="120" step="1" value="60"></div>
+      <div class="control"><label>To‘lqin uzunligi λ <span id="lambdaVal">240 px</span></label><input id="lambda" type="range" min="120" max="420" step="5" value="240"></div>
+      <div class="control"><label>Chastota f <span id="freqVal">1.0 Hz</span></label><input id="freq" type="range" min=".5" max="2.5" step=".1" value="1"></div>
+    </div>
+  </div>
+  <div class="note"><b>Eslab qoling:</b> f oshsa, bir sekunddagi tebranishlar soni ko‘payadi. A oshsa, tebranish kattaligi ortadi. λ oshsa, ketma-ket tepaliklar orasidagi masofa ortadi.</div>
+</section>
+
+<section id="calc">
+  <div class="section-tag">AMALIY VOSITA</div>
+  <h2>🧮 To‘lqin kalkulyatori</h2>
+  <p>v, λ va f qiymatlaridan <b>ikkitasini</b> kiriting. Uchinchi kattalik avtomatik hisoblanadi.</p>
+  <div class="calc">
+    <div class="field"><label>v — tezlik (m/s)</label><input id="cv" type="number" min="0" step="any" placeholder="Masalan: 20"></div>
+    <div class="field"><label>λ — to‘lqin uzunligi (m)</label><input id="cl" type="number" min="0" step="any" placeholder="Masalan: 5"></div>
+    <div class="field"><label>f — chastota (Hz)</label><input id="cf" type="number" min="0" step="any" placeholder="Masalan: 4"></div>
+  </div>
+  <div class="controls"><button class="btn primary" onclick="calculateWave()">Hisoblash</button><button class="btn" onclick="clearCalc()">Tozalash</button></div>
+  <div id="calcResult" class="result">Natija shu yerda chiqadi.</div>
+  <div class="example"><b>Misol:</b> v = 20 m/s va λ = 5 m bo‘lsa, f = v / λ = 20 / 5 = <b>4 Hz</b>.</div>
+</section>
+
+<section id="tests">
+  <div class="section-tag">NAZORAT</div>
+  <h2>📝 Interaktiv testlar</h2>
+  <p>Javobni bosganingizda natija darhol ko‘rsatiladi.</p>
+  <div id="quiz2"></div>
+</section>
+
+<section id="problems">
+  <div class="section-tag">YAKUNIY AMALIYOT</div>
+  <h2>📚 Amaliy masalalar</h2>
+  <div class="card"><h3>1-masala</h3><p><b>Berilgan:</b> v = 20 m/s, λ = 4 m.</p><p><b>Formula:</b> f = v / λ</p><p><b>Hisoblash:</b> f = 20 / 4 = 5 Hz</p><p><b>Javob:</b> <span class="kpi">f = 5 Hz</span></p></div>
+  <div class="card"><h3>2-masala</h3><p><b>Berilgan:</b> f = 5 Hz, v = 10 m/s.</p><p><b>Formula:</b> λ = v / f</p><p><b>Hisoblash:</b> λ = 10 / 5 = 2 m</p><p><b>Javob:</b> <span class="kpi">λ = 2 m</span></p></div>
+  <div class="card"><h3>3-masala</h3><p><b>Berilgan:</b> f = 2 Hz.</p><p><b>Formula:</b> T = 1 / f</p><p><b>Hisoblash:</b> T = 1 / 2 = 0,5 s</p><p><b>Javob:</b> <span class="kpi">T = 0,5 s</span></p></div>
+  <div class="note"><b>O‘zini tekshirish:</b> avval masalani mustaqil yeching, keyin yuqoridagi yechim bilan solishtiring.</div>
+</section>
+
+<section>
+  <div class="section-tag">YAKUNIY XULOSA</div>
+  <h2>🎓 Bugun nimalarni bildik?</h2>
+  <div class="grid3">
+    <div class="card"><h3>1</h3><p>Mexanik to‘lqin tarqalishi uchun moddiy muhit kerak.</p></div>
+    <div class="card"><h3>2</h3><p>Bo‘ylama to‘lqinda zarrachalar tarqalish yo‘nalishi bo‘ylab tebranadi.</p></div>
+    <div class="card"><h3>3</h3><p>Asosiy bog‘lanishlar: T = 1/f, f = 1/T, v = λ × f, λ = v/f.</p></div>
+  </div>
+  <button class="btn primary" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Boshiga qaytish</button>
+</section>
+</main>
+
+<footer>10-sinf Fizika • 17-mavzu: Mexanik to‘lqinlar • Interaktiv elektron dars</footer>
+
+<script>
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'})}
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-innerHeight;
+  document.getElementById('progress').style.width=(h>0?(scrollY/h*100):0)+'%';
+});
+
+/* 1-reja mexanik to'lqin */
+const mc=document.getElementById('mechanicalCanvas'), mx=mc.getContext('2d');
+let mechRunning=true, mechT=0, mechType='long', mechSpeed=1;
+function drawMechanical(){
+  const W=mc.width,H=mc.height;
+  mx.clearRect(0,0,W,H);
+  const dpr=devicePixelRatio||1;
+  mx.fillStyle='#07111f'; mx.fillRect(0,0,W,H);
+  mx.font='bold 20px Segoe UI'; mx.fillStyle='#e2e8f0';
+  mx.fillText(mechType==='long'?'Bo‘ylama to‘lqin':'Ko‘ndalang to‘lqin',25,34);
+  mx.font='14px Segoe UI'; mx.fillStyle='#94a3b8';
+  mx.fillText('To‘lqin tarqalishi →',W-210,H-25);
+  const n=43, baseX=75, gap=(W-150)/(n-1), cy=170, amp=62;
+  if(mechType==='long'){
+    // approximate local displacement
+    for(let i=0;i<n;i++){
+      const phase=i*.48-mechT*.075;
+      const disp=Math.sin(phase)*30;
+      const x=baseX+i*gap+disp;
+      const density=Math.cos(phase);
+      mx.beginPath();mx.arc(x,cy,8,0,Math.PI*2);
+      mx.fillStyle=density>0.38?'#f97316':density<-0.38?'#38bdf8':'#94a3b8';mx.fill();
+    }
+    // labels and arrows
+    mx.fillStyle='#fb923c';mx.font='bold 15px Segoe UI';mx.fillText('SIQILISH',90,245);
+    mx.fillStyle='#38bdf8';mx.fillText('SIYRAKLASHISH',400,245);
+    mx.fillStyle='#f8fafc';mx.font='14px Segoe UI';mx.fillText('Zarrachalar harakati ↔',25,85);
+    arrow(mx,205,70,285,70,'#f8fafc');
+    arrow(mx,820,300,960,300,'#22d3ee');
+    mx.fillStyle='#22d3ee';mx.fillText('To‘lqin tarqalish yo‘nalishi',730,288);
+  }else{
+    for(let i=0;i<n;i++){
+      const phase=i*.42-mechT*.075;
+      const y=cy+Math.sin(phase)*amp;
+      const x=baseX+i*gap;
+      mx.beginPath();mx.arc(x,y,8,0,Math.PI*2);mx.fillStyle='#38bdf8';mx.fill();
+    }
+    mx.strokeStyle='#334155';mx.lineWidth=1;mx.setLineDash([5,5]);
+    mx.beginPath();mx.moveTo(baseX,cy);mx.lineTo(W-75,cy);mx.stroke();mx.setLineDash([]);
+    mx.fillStyle='#f8fafc';mx.font='14px Segoe UI';mx.fillText('Zarrachalar harakati ↕',25,85);
+    arrow(mx,820,300,960,300,'#22d3ee');
+    mx.fillStyle='#22d3ee';mx.fillText('To‘lqin tarqalish yo‘nalishi →',735,288);
+  }
+  if(mechRunning) mechT+=mechSpeed;
+  requestAnimationFrame(drawMechanical);
+}
+function arrow(c,x1,y1,x2,y2,color){
+  c.strokeStyle=color;c.fillStyle=color;c.lineWidth=3;c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke();
+  const a=Math.atan2(y2-y1,x2-x1);
+  c.beginPath();c.moveTo(x2,y2);c.lineTo(x2-12*Math.cos(a-.5),y2-12*Math.sin(a-.5));c.lineTo(x2-12*Math.cos(a+.5),y2-12*Math.sin(a+.5));c.closePath();c.fill();
+}
+function setWaveType(t){
+  mechType=t;
+  document.getElementById('longBtn').classList.toggle('active',t==='long');
+  document.getElementById('transBtn').classList.toggle('active',t==='trans');
+}
+function startMech(){mechRunning=true} function stopMech(){mechRunning=false} function resetMech(){mechT=0;mechRunning=true}
+document.getElementById('mSpeed').oninput=e=>{mechSpeed=+e.target.value;document.getElementById('mSpeedVal').textContent=mechSpeed.toFixed(1)+'×'}
+
+/* 2-reja sinusoidal to'lqin */
+const wc=document.getElementById('waveCanvas'), wx=wc.getContext('2d');
+let waveRunning=true,waveT=0,wSpeed=1;
+function drawWave(){
+  const W=wc.width,H=wc.height;
+  wx.clearRect(0,0,W,H);wx.fillStyle='#07111f';wx.fillRect(0,0,W,H);
+  const A=+document.getElementById('amp').value, L=+document.getElementById('lambda').value, f=+document.getElementById('freq').value;
+  const mid=220, left=65, right=W-55;
+  wx.strokeStyle='#334155';wx.lineWidth=1;wx.setLineDash([5,5]);
+  wx.beginPath();wx.moveTo(left,mid);wx.lineTo(right,mid);wx.stroke();wx.setLineDash([]);
+  wx.fillStyle='#cbd5e1';wx.font='14px Segoe UI';wx.fillText('Muvozanat holati',left+5,mid-8);
+  wx.strokeStyle='#22d3ee';wx.lineWidth=4;wx.beginPath();
+  for(let x=left;x<=right;x++){
+    const y=mid-A*Math.sin((2*Math.PI*(x-left)/L)-waveT);
+    if(x===left)wx.moveTo(x,y);else wx.lineTo(x,y);
+  } wx.stroke();
+  // crest and trough labels
+  const crestX=left+L/4, troughX=left+3*L/4;
+  wx.fillStyle='#facc15';wx.font='bold 15px Segoe UI';wx.fillText('Tepalik',crestX-25,mid-A-15);wx.fillText('Botiq',troughX-18,mid+A+28);
+  // amplitude bracket
+  wx.strokeStyle='#f97316';wx.lineWidth=3;wx.beginPath();wx.moveTo(left+25,mid);wx.lineTo(left+25,mid-A);wx.stroke();
+  arrow(wx,left+25,mid,left+25,mid-A,'#f97316');arrow(wx,left+25,mid-A,left+25,mid,'#f97316');
+  wx.fillStyle='#fb923c';wx.fillText('A',left+35,mid-A/2);
+  // wavelength bracket
+  const x1=left+L/4,x2=x1+L;
+  if(x2<right-10){
+    wx.strokeStyle='#a78bfa';wx.lineWidth=3;wx.beginPath();wx.moveTo(x1,mid+95);wx.lineTo(x2,mid+95);wx.stroke();
+    arrow(wx,x1,mid+95,x2,mid+95,'#a78bfa');arrow(wx,x2,mid+95,x1,mid+95,'#a78bfa');
+    wx.fillStyle='#c4b5fd';wx.font='bold 16px Segoe UI';wx.fillText('λ — to‘lqin uzunligi',x1+(x2-x1)/2-85,mid+122);
+  }
+  arrow(wx,W-240,55,W-90,55,'#22d3ee');wx.fillStyle='#67e8f9';wx.fillText('To‘lqin tarqalishi →',W-250,45);
+  wx.fillStyle='#e2e8f0';wx.font='bold 18px Segoe UI';wx.fillText(`A=${A}px   λ=${L}px   f=${f.toFixed(1)} Hz`,25,30);
+  if(waveRunning)waveT += .035*wSpeed*f;
+  requestAnimationFrame(drawWave);
+}
+function startWave(){waveRunning=true} function stopWave(){waveRunning=false} function resetWave(){waveT=0;waveRunning=true}
+document.getElementById('wSpeed').oninput=e=>{wSpeed=+e.target.value;document.getElementById('wSpeedVal').textContent=wSpeed.toFixed(1)+'×'}
+document.getElementById('amp').oninput=e=>document.getElementById('ampVal').textContent=e.target.value+' px';
+document.getElementById('lambda').oninput=e=>document.getElementById('lambdaVal').textContent=e.target.value+' px';
+document.getElementById('freq').oninput=e=>document.getElementById('freqVal').textContent=(+e.target.value).toFixed(1)+' Hz';
+
+/* Kalkulyator */
+function fmt(n){return Number.isFinite(n)?(Math.round(n*100000)/100000).toString().replace('.',','):'—'}
+function calculateWave(){
+  const v=parseFloat(document.getElementById('cv').value), l=parseFloat(document.getElementById('cl').value), f=parseFloat(document.getElementById('cf').value);
+  const vals=[v,l,f].filter(x=>Number.isFinite(x)&&x>0).length;
+  const out=document.getElementById('calcResult');
+  if(vals<2){out.textContent='Iltimos, ikkita musbat qiymat kiriting.';out.style.color='#b91c1c';return}
+  out.style.color='#166534';
+  if(!Number.isFinite(v)&&Number.isFinite(l)&&Number.isFinite(f))out.innerHTML=`v = λ × f = ${fmt(l)} × ${fmt(f)} = <b>${fmt(l*f)} m/s</b>`;
+  else if(!Number.isFinite(l)&&Number.isFinite(v)&&Number.isFinite(f))out.innerHTML=`λ = v / f = ${fmt(v)} / ${fmt(f)} = <b>${fmt(v/f)} m</b>`;
+  else if(!Number.isFinite(f)&&Number.isFinite(v)&&Number.isFinite(l))out.innerHTML=`f = v / λ = ${fmt(v)} / ${fmt(l)} = <b>${fmt(v/l)} Hz</b>`;
+  else out.textContent='Faqat ikkita qiymatni kiriting, uchinchi maydonni bo‘sh qoldiring.';
+}
+function clearCalc(){['cv','cl','cf'].forEach(id=>document.getElementById(id).value='');document.getElementById('calcResult').textContent='Natija shu yerda chiqadi.'}
+
+/* Quiz */
+const q1=[
+ {q:'Mexanik to‘lqin tarqalishi uchun nima zarur?',o:['Moddiy muhit','Faqat vakuum','Faqat yorug‘lik','Elektr toki'],a:0},
+ {q:'Bo‘ylama to‘lqinda zarrachalar qanday tebranadi?',o:['Tarqalish yo‘nalishiga tik','Tarqalish yo‘nalishi bo‘ylab','Faqat aylana bo‘ylab','Harakatlanmaydi'],a:1},
+ {q:'Bo‘ylama to‘lqinda qaysi sohalar navbatlashadi?',o:['Tepalik va botiq','Issiq va sovuq','Siqilish va siyraklashish','Yorug‘ va qorong‘i'],a:2},
+ {q:'Tovush mexanik to‘lqin sifatida nimaga muhtoj?',o:['Moddiy muhitga','Faqat vakuumga','Faqat yorug‘likka','Magnit maydonga'],a:0}
+];
+const q2=[
+ {q:'To‘lqin uzunligi qaysi belgi bilan belgilanadi?',o:['A','T','λ','f'],a:2},
+ {q:'Chastota va davr orasidagi to‘g‘ri formula qaysi?',o:['f = T','f = 1/T','f = λ/T','T = f'],a:1},
+ {q:'v = 20 m/s va λ = 5 m bo‘lsa, f nechaga teng?',o:['2 Hz','4 Hz','10 Hz','25 Hz'],a:1},
+ {q:'Amplituda nimani bildiradi?',o:['Bir sekunddagi tebranishlar sonini','Bir to‘liq tebranish vaqtini','Muvozanatdan eng katta siljishni','To‘lqin tezligini'],a:2},
+ {q:'λ = v/f formulasi qaysi kattalikni topadi?',o:['Davrni','Amplitudani','To‘lqin uzunligini','Chastotani'],a:2}
+];
+function renderQuiz(arr,id){
+  const box=document.getElementById(id);box.innerHTML='';
+  arr.forEach((x,i)=>{
+    const d=document.createElement('div');d.className='quiz';
+    d.innerHTML=`<h3>${i+1}. ${x.q}</h3><div class="opts">${x.o.map((v,j)=>`<button onclick="answer(this,${j},${x.a},'fb${id}${i}')">${String.fromCharCode(65+j)}) ${v}</button>`).join('')}</div><div class="feedback" id="fb${id}${i}"></div>`;
+    box.appendChild(d);
+  });
+}
+function answer(btn,chosen,correct,feedbackId){
+  const fb=document.getElementById(feedbackId);
+  const all=btn.parentElement.querySelectorAll('button');all.forEach(b=>b.disabled=true);
+  if(chosen===correct){btn.style.borderColor='#22c55e';btn.style.background='#dcfce7';fb.className='feedback ok';fb.textContent='✓ To‘g‘ri javob!'}
+  else{btn.style.borderColor='#ef4444';btn.style.background='#fee2e2';fb.className='feedback bad';fb.textContent='✗ Noto‘g‘ri. Qayta urinib ko‘ring.'}
+}
+renderQuiz(q1,'quiz1');renderQuiz(q2,'quiz2');
+drawMechanical();drawWave();
+</script>
+</body>
+</html>
