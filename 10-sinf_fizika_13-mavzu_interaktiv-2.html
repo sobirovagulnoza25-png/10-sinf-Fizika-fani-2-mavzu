@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10-sinf fizika — 13-mavzu: Momentlar qoidasiga asoslanib ishlaydigan oddiy mexanizmlar</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#182230;line-height:1.55}
+header{background:linear-gradient(135deg,#243b55,#141e30);color:white;padding:28px 18px;text-align:center}
+header h1{margin:0 0 8px;font-size:clamp(22px,4vw,36px)}
+header p{margin:0;font-size:16px}
+nav{position:sticky;top:0;z-index:5;background:#fff;padding:10px;display:flex;gap:8px;overflow:auto;box-shadow:0 2px 8px #0002}
+nav a{white-space:nowrap;text-decoration:none;background:#e9eef7;color:#17324d;padding:9px 13px;border-radius:20px;font-weight:bold}
+main{max-width:1150px;margin:auto;padding:18px}
+section{background:white;margin:18px 0;padding:22px;border-radius:16px;box-shadow:0 4px 18px #0001}
+h2{color:#1d4f7a;border-bottom:2px solid #dbe7f3;padding-bottom:8px}
+h3{color:#315f82}
+.card{background:#f7faff;border-left:5px solid #4d7ea8;padding:14px;margin:12px 0;border-radius:8px}
+.formula{font-size:25px;text-align:center;background:#eef5fb;padding:14px;border-radius:10px;margin:12px 0;font-weight:bold}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:15px}
+label{display:block;font-weight:bold;margin-top:9px}
+input[type=range]{width:100%}
+button{border:0;border-radius:9px;padding:10px 15px;background:#315f82;color:#fff;font-weight:bold;cursor:pointer;margin:5px}
+button:hover{filter:brightness(1.1)}
+.value{font-weight:bold;color:#1d4f7a}
+.sim{background:#f2f6fa;border:1px solid #d5e0eb;padding:16px;border-radius:14px}
+canvas{width:100%;max-width:850px;height:330px;background:#fff;border:1px solid #cbd7e2;border-radius:10px;display:block;margin:12px auto}
+.result{font-size:18px;font-weight:bold;text-align:center;padding:10px}
+.good{background:#e8f7ed;color:#176b34}
+.warn{background:#fff4df;color:#7a4a00}
+.bad{background:#fdeaea;color:#8a1f1f}
+details{margin:9px 0;background:#f8fafc;padding:10px;border-radius:8px}
+.answer{display:none;margin-top:8px;padding:8px;background:#e8f7ed;border-radius:7px}
+table{width:100%;border-collapse:collapse;margin:10px 0}
+th,td{border:1px solid #d5dde6;padding:9px;text-align:left}
+th{background:#edf3f8}
+.small{font-size:14px;color:#536577}
+footer{text-align:center;padding:25px;color:#5b6b7a}
+</style>
+</head>
+<body>
+<header>
+<h1>13-mavzu: Momentlar qoidasiga asoslanib ishlaydigan oddiy mexanizmlar</h1>
+<p>10-sinf fizika • Nazariya • Simulyatsiya • Animatsiya • Tajriba • Masalalar • Test</p>
+</header>
+
+<nav>
+<a href="#nazariya">Nazariya</a><a href="#juft">Juft kuchlar</a><a href="#richag">Richag</a>
+<a href="#blok">Bloklar</a><a href="#vint">Vint</a><a href="#tajriba">Tajribalar</a>
+<a href="#masala">Masalalar</a><a href="#test">Test</a>
+</nav>
+
+<main>
+<section id="nazariya">
+<h2>📘 Mavzuga kirish</h2>
+<p>Oddiy mexanizmlar inson mehnatini yengillashtirish, kuchning yo‘nalishini o‘zgartirish yoki kuchdan foydalanish qulayligini oshirish uchun ishlatiladi. Richag, blok va vintlarning ishlashida kuch momenti va momentlar qoidasi muhim ahamiyatga ega.</p>
+<div class="formula">M = F · l</div>
+<p><b>M</b> — kuch momenti (N·m), <b>F</b> — kuch (N), <b>l</b> — kuch yelkasi (m). Kuch yelkasi — tayanchdan kuchning ta’sir chizig‘igacha bo‘lgan eng qisqa masofa.</p>
+</section>
+
+<section id="juft">
+<h2>1. Juft kuchlar</h2>
+<p>Juft kuchlar — modullari teng, yo‘nalishlari qarama-qarshi va ta’sir chiziqlari parallel bo‘lgan ikki kuchdir. Ular jismga sof aylantiruvchi ta’sir ko‘rsatishi mumkin.</p>
+<div class="grid">
+<div class="card"><b>Asosiy xususiyat:</b> F₁ = F₂ = F.</div>
+<div class="card"><b>Ta’sir chiziqlari:</b> parallel va bir-biridan l masofada.</div>
+<div class="card"><b>Moment:</b> M = F·l.</div>
+</div>
+<p>Misollar: rulni burash, eshikni ikki qo‘l bilan aylantirish, kalit yordamida gaykani burash.</p>
+<div class="sim">
+<h3>🔄 Juft kuch momenti — interaktiv simulyatsiya</h3>
+<label>Kuch F: <span id="fVal" class="value"></span> N</label>
+<input id="force" type="range" min="10" max="100" value="40">
+<label>Kuchlar oralig‘i l: <span id="lVal" class="value"></span> m</label>
+<input id="arm" type="range" min="0.1" max="2" step="0.1" value="0.8">
+<div class="result" id="momentOut"></div>
+<canvas id="pairCanvas" width="850" height="330"></canvas>
+</div>
+</section>
+
+<section id="richag">
+<h2>2. Richag</h2>
+<p>Richag — tayanch atrofida aylana oladigan qattiq jism. Richagning ishlashi momentlar qoidasiga asoslanadi.</p>
+<div class="formula">F₁ · l₁ = F₂ · l₂</div>
+<p>Muvozanatda chap tomondagi aylantiruvchi moment o‘ng tomondagi momentga teng bo‘ladi.</p>
+<h3>Richag turlari</h3>
+<table>
+<tr><th>Tur</th><th>Tayanch va kuch/yuk joylashuvi</th><th>Misol</th></tr>
+<tr><td>I tur</td><td>Tayanch kuch va yuk orasida</td><td>Qaychi, tarozi</td></tr>
+<tr><td>II tur</td><td>Yuk tayanch va kuch orasida</td><td>Aravacha</td></tr>
+<tr><td>III tur</td><td>Kuch tayanch va yuk orasida</td><td>Pinset, inson qo‘li</td></tr>
+</table>
+<div class="sim">
+<h3>⚖️ Richag muvozanati — interaktiv simulyatsiya</h3>
+<div class="grid">
+<div>
+<label>F₁: <span id="f1Val" class="value"></span> N</label>
+<input id="f1" type="range" min="10" max="100" value="40">
+<label>l₁: <span id="l1Val" class="value"></span> m</label>
+<input id="l1" type="range" min="0.2" max="2.5" step="0.1" value="1.2">
+</div>
+<div>
+<label>F₂: <span id="f2Val" class="value"></span> N</label>
+<input id="f2" type="range" min="10" max="100" value="60">
+<label>l₂: <span id="l2Val" class="value"></span> m</label>
+<input id="l2" type="range" min="0.2" max="2.5" step="0.1" value="0.8">
+</div>
+</div>
+<div class="result" id="leverOut"></div>
+<canvas id="leverCanvas" width="850" height="330"></canvas>
+<button onclick="balanceLever()">Muvozanatni topish</button>
+</div>
+</section>
+
+<section id="blok">
+<h2>3. Bloklar</h2>
+<p><b>Qo‘zg‘almas blok</b> asosan kuchning yo‘nalishini o‘zgartiradi. Ideal holatda mexanik yutug‘i 1 ga teng.</p>
+<p><b>Qo‘zg‘aluvchan blok</b> yuk bilan birga siljiydi va ideal holatda kuchdan taxminan 2 marta yutuq beradi.</p>
+<div class="formula">F ≈ P / n</div>
+<p>Bu yerda <b>n</b> — yukni ko‘tarib turgan arqon tarmoqlari soni. Real mexanizmlarda ishqalanish sababli yo‘qotishlar mavjud.</p>
+<div class="sim">
+<h3>🏗️ Blok yordamida yuk ko‘tarish</h3>
+<label>Yuk og‘irligi P: <span id="loadVal" class="value"></span> N</label>
+<input id="load" type="range" min="20" max="200" value="100">
+<label>Arqon tarmoqlari soni n: <span id="ropesVal" class="value"></span></label>
+<input id="ropes" type="range" min="1" max="4" step="1" value="2">
+<div class="result" id="blockOut"></div>
+<canvas id="blockCanvas" width="850" height="330"></canvas>
+<button onclick="toggleBlock()">▶️ Ko‘tarish / ⏸ To‘xtatish</button>
+</div>
+</section>
+
+<section id="vint">
+<h2>Vint</h2>
+<p>Vint — qiya tekislikning silindr sirtiga o‘ralgan ko‘rinishi sifatida qaraladigan oddiy mexanizm. Vint aylanganda uning rezbasi bo‘ylab siljish yuz beradi.</p>
+<div class="grid">
+<div class="card"><b>Vint qadami:</b> bir to‘liq aylanishda vintning o‘q bo‘ylab siljish masofasi.</div>
+<div class="card"><b>Qo‘llanishi:</b> bolt-gayka, domkrat, press, shurup.</div>
+<div class="card"><b>Afzalligi:</b> kichik aylantiruvchi kuch bilan katta yukni siljitish imkonini beradi.</div>
+</div>
+<div class="sim">
+<h3>🔩 Vintning ishlash prinsipi</h3>
+<label>Vint qadami p: <span id="pitchVal" class="value"></span> mm</label>
+<input id="pitch" type="range" min="1" max="20" value="5">
+<label>Aylanishlar soni: <span id="turnVal" class="value"></span></label>
+<input id="turns" type="range" min="1" max="20" value="8">
+<div class="result" id="screwOut"></div>
+<canvas id="screwCanvas" width="850" height="330"></canvas>
+<button onclick="animateScrew()">▶️ Animatsiyani ishga tushirish</button>
+</div>
+</section>
+
+<section id="tajriba">
+<h2>🧪 Virtual tajribalar</h2>
+<div class="grid">
+<div class="card"><b>1-tajriba:</b> F ni oshiring va M = F·l qanday o‘zgarishini kuzating.</div>
+<div class="card"><b>2-tajriba:</b> Richag yelkalarini o‘zgartirib muvozanat shartini toping.</div>
+<div class="card"><b>3-tajriba:</b> Bir xil yuk uchun bloklar sonini o‘zgartiring.</div>
+<div class="card"><b>4-tajriba:</b> Vint qadamini oshirib bir aylanishdagi siljishni kuzating.</div>
+<div class="card"><b>5-tajriba:</b> Hayotiy mexanizmlardan qaysi biri richag, blok yoki vint ekanini aniqlang.</div>
+</div>
+</section>
+
+<section id="masala">
+<h2>🧮 Masalalar</h2>
+<details><summary>1-masala. Juft kuch</summary>
+<p>F = 40 N, l = 0,5 m. Juft kuch momentini toping.</p>
+<p><b>Yechim:</b> M = F·l = 40·0,5 = <b>20 N·m</b>.</p></details>
+<details><summary>2-masala. Richag</summary>
+<p>F₁ = 60 N, l₁ = 0,4 m, l₂ = 0,8 m. Muvozanat uchun F₂ ni toping.</p>
+<p><b>Yechim:</b> F₁l₁ = F₂l₂ → F₂ = 60·0,4/0,8 = <b>30 N</b>.</p></details>
+<details><summary>3-masala. Kuch yelkasi</summary>
+<p>M = 24 N·m va F = 12 N bo‘lsa, l ni toping.</p>
+<p><b>Yechim:</b> l = M/F = 24/12 = <b>2 m</b>.</p></details>
+<details><summary>4-masala. Blok</summary>
+<p>Ideal qo‘zg‘aluvchan blok bilan 120 N yuk ko‘tarilmoqda. Zarur kuch qancha?</p>
+<p><b>Yechim:</b> F = P/2 = 120/2 = <b>60 N</b>.</p></details>
+<details><summary>5-masala. Vint</summary>
+<p>Vint qadami 4 mm. 10 marta aylantirilsa, ideal siljish qancha bo‘ladi?</p>
+<p><b>Yechim:</b> s = p·N = 4·10 = <b>40 mm</b>.</p></details>
+</section>
+
+<section id="test">
+<h2>📝 Test</h2>
+<div id="quiz"></div>
+<button onclick="checkQuiz()">Natijani tekshirish</button>
+<div class="result" id="score"></div>
+</section>
+
+<section>
+<h2>📌 Asosiy atamalar</h2>
+<table>
+<tr><th>Atama</th><th>Izoh</th></tr>
+<tr><td>Juft kuch</td><td>Modullari teng, yo‘nalishlari qarama-qarshi, parallel ta’sir chiziqlariga ega ikki kuch.</td></tr>
+<tr><td>Kuch momenti</td><td>Kuchning jismni aylantirish qobiliyatini ifodalovchi fizik kattalik.</td></tr>
+<tr><td>Kuch yelkasi</td><td>Tayanchdan kuchning ta’sir chizig‘igacha bo‘lgan eng qisqa masofa.</td></tr>
+<tr><td>Richag</td><td>Tayanch atrofida aylana oladigan qattiq jism.</td></tr>
+<tr><td>Blok</td><td>Arqon bilan ishlaydigan g‘ildirakli oddiy mexanizm.</td></tr>
+<tr><td>Vint</td><td>Rezbali sirtga ega bo‘lgan, aylanishni siljishga aylantiruvchi oddiy mexanizm.</td></tr>
+<tr><td>Mexanik yutuq</td><td>Mexanizm yordamida kuchdan qancha marta yutuq olinayotganini ifodalovchi nisbat.</td></tr>
+</table>
+</section>
+
+<section>
+<h2>✅ Xulosa</h2>
+<p>Momentlar qoidasiga asoslangan oddiy mexanizmlar kuchni qulay tarzda ishlatishga yordam beradi. Richagda muvozanat momentlarning tengligi bilan aniqlanadi. Blok kuch yo‘nalishini o‘zgartirishi yoki kuchdan yutuq berishi mumkin. Vint esa aylanish harakatini kichik qadamli siljishga aylantirib, katta yuklarni ko‘tarish yoki siqishda qo‘llanadi.</p>
+</section>
+</main>
+<footer>10-sinf fizika • 13-mavzu • Interaktiv o‘quv materiali</footer>
+
+<script>
+const $=id=>document.getElementById(id);
+function drawArrow(ctx,x1,y1,x2,y2,label){
+ ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+ let a=Math.atan2(y2-y1,x2-x1);
+ ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-12*Math.cos(a-.5),y2-12*Math.sin(a-.5));
+ ctx.lineTo(x2-12*Math.cos(a+.5),y2-12*Math.sin(a+.5));ctx.closePath();ctx.fill();
+ ctx.fillText(label,(x1+x2)/2+5,(y1+y2)/2-7);
+}
+function pairDraw(){
+ let F=+$('force').value,l=+$('arm').value,M=F*l;
+ $('fVal').textContent=F;$('lVal').textContent=l.toFixed(1);
+ $('momentOut').textContent=`M = F·l = ${F} × ${l.toFixed(1)} = ${M.toFixed(1)} N·m`;
+ let c=$('pairCanvas'),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);
+ x.lineWidth=5;x.strokeStyle="#315f82";x.beginPath();x.moveTo(180,165);x.lineTo(670,165);x.stroke();
+ x.lineWidth=2;x.strokeStyle="#182230";x.fillStyle="#182230";
+ drawArrow(x,270,165,270,75,"F");drawArrow(x,580,165,580,255,"F");
+ x.setLineDash([5,5]);x.beginPath();x.moveTo(270,75);x.lineTo(270,255);x.moveTo(580,75);x.lineTo(580,255);x.stroke();x.setLineDash([]);
+ x.fillText(`l = ${l.toFixed(1)} m`,390,145);x.fillText("Juft kuch ta'sirida aylanish",315,300);
+}
+['force','arm'].forEach(id=>$(id).addEventListener('input',pairDraw));pairDraw();
+
+let leverAngle=0;
+function leverDraw(){
+ let f1=+$('f1').value,l1=+$('l1').value,f2=+$('f2').value,l2=+$('l2').value;
+ $('f1Val').textContent=f1;$('l1Val').textContent=l1.toFixed(1);$('f2Val').textContent=f2;$('l2Val').textContent=l2.toFixed(1);
+ let m1=f1*l1,m2=f2*l2,d=m1-m2;
+ $('leverOut').textContent=`M₁ = ${m1.toFixed(1)} N·m | M₂ = ${m2.toFixed(1)} N·m — ${Math.abs(d)<1 ? "MUVOZANAT" : d>0 ? "Chap tomonga og‘adi" : "O‘ng tomonga og‘adi"}`;
+ let target=Math.max(-0.35,Math.min(0.35,-d/Math.max(m1,m2,1)*0.35));leverAngle+=(target-leverAngle)*.12;
+ let c=$('leverCanvas'),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);
+ let cx=425,cy=190,L=300,dx=Math.cos(leverAngle)*L,dy=Math.sin(leverAngle)*L;
+ x.save();x.translate(cx,cy);x.rotate(leverAngle);x.lineWidth=12;x.strokeStyle="#315f82";x.beginPath();x.moveTo(-L,0);x.lineTo(L,0);x.stroke();
+ x.fillStyle="#7a4a00";x.beginPath();x.moveTo(-22,25);x.lineTo(22,25);x.lineTo(0,-25);x.closePath();x.fill();
+ drawArrow(x,-l1*110,0,-l1*110,-75,"F₁");drawArrow(x,l2*110,0,l2*110,75,"F₂");x.restore();
+ x.fillStyle="#182230";x.fillText("Tayanch",395,245);
+ requestAnimationFrame(leverDraw);
+}
+['f1','l1','f2','l2'].forEach(id=>$(id).addEventListener('input',()=>{}));
+function balanceLever(){
+ let f1=+$('f1').value,l1=+$('l1').value; $('f2').value=(f1*l1/+$('l2').value).toFixed(0); if(+$('f2').value>100)$('f2').value=100;
+}
+leverDraw();
+
+let blockY=220,blockRun=false;
+function blockDraw(){
+ let P=+$('load').value,n=+$('ropes').value,F=P/n;
+ $('loadVal').textContent=P;$('ropesVal').textContent=n;$('blockOut').textContent=`Ideal kuch: F = P/n = ${P}/${n} = ${F.toFixed(1)} N | Mexanik yutuq ≈ ${n}`;
+ let c=$('blockCanvas'),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);
+ x.fillStyle="#dce6ef";x.fillRect(120,35,610,18);
+ x.strokeStyle="#315f82";x.lineWidth=3;x.beginPath();x.arc(425,105,55,0,Math.PI*2);x.stroke();
+ x.beginPath();x.moveTo(370,105);x.lineTo(370,260-blockY+220);x.lineTo(480,260-blockY+220);x.lineTo(480,105);x.stroke();
+ x.fillStyle="#8b6b3f";x.fillRect(380,blockY,90,55);x.fillStyle="#182230";x.fillText(`${P} N yuk`,392,blockY+30);
+ x.fillText(`${n} ta arqon tarmog‘i`,340,305);
+ if(blockRun){blockY-=.7;if(blockY<80)blockY=220}
+ requestAnimationFrame(blockDraw);
+}
+function toggleBlock(){blockRun=!blockRun}
+['load','ropes'].forEach(id=>$(id).addEventListener('input',()=>{}));blockDraw();
+
+function screwInfo(){
+ let p=+$('pitch').value,N=+$('turns').value,s=p*N;
+ $('pitchVal').textContent=p;$('turnVal').textContent=N;$('screwOut').textContent=`s = p·N = ${p} × ${N} = ${s} mm`;
+ let c=$('screwCanvas'),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);
+ x.fillStyle="#c7ced6";x.fillRect(395,55,60,210);x.fillStyle="#315f82";
+ for(let y=70;y<255;y+=p*3){x.fillRect(370,y,110,4)}
+ x.fillStyle="#182230";x.fillText("Vint qadami p",500,120);x.fillText(`Bir aylanish: ${p} mm`,500,150);x.fillText(`Jami siljish: ${s} mm`,500,180);
+}
+['pitch','turns'].forEach(id=>$(id).addEventListener('input',screwInfo));screwInfo();
+function animateScrew(){
+ let i=0,p=+$('pitch').value,N=+$('turns').value,c=$('screwCanvas'),x=c.getContext('2d');
+ let timer=setInterval(()=>{i++;x.clearRect(0,0,c.width,c.height);x.save();x.translate(425,160);x.rotate(i*.18);x.fillStyle="#c7ced6";x.fillRect(-30,-105,60,210);x.strokeStyle="#315f82";x.lineWidth=5;
+ for(let y=-95;y<100;y+=18){x.beginPath();x.moveTo(-55,y);x.lineTo(55,y+12);x.stroke()}x.restore();x.fillStyle="#182230";x.fillText(`Aylanish: ${(i/10).toFixed(1)} / ${N}`,500,120);if(i>=N*10)clearInterval(timer)},80);
+}
+
+const qs=[
+["Kuch momentining formulasi qaysi?","M=F·l","M=F+l","M=F/l","M=F-l",0],
+["Momentning SI birligi nima?","J","N","N·m","Pa",2],
+["Richag muvozanatida qaysi tenglik bajariladi?","F₁l₁=F₂l₂","F₁+F₂=0","l₁+l₂=0","F₁/F₂=0",0],
+["Qo‘zg‘almas blokning asosiy vazifasi nima?","Massani yo‘qotish","Kuch yo‘nalishini o‘zgartirish","Kuchni 10 marta oshirish","Vint yasash",1],
+["Ideal qo‘zg‘aluvchan blokda mexanik yutuq taxminan nechaga teng?","1","2","5","10",1],
+["Vint qadami nimani bildiradi?","Vint massasini","Bir aylanishdagi o‘q bo‘ylab siljishni","Kuch momentini","Yuk massasini",1],
+["Kuch yelkasi nima?","Kuchning qiymati","Tayanchdan ta’sir chizig‘igacha eng qisqa masofa","Jism massasi","Arqon uzunligi",1],
+["Juft kuchlarda kuchlar qanday?","Teng va bir yo‘nalishda","Teng va qarama-qarshi, parallel","Har xil va parallel","Faqat bitta kuch",1],
+["M=30 N·m, F=10 N bo‘lsa l qancha?","0,3 m","3 m","20 m","300 m",1],
+["Richagga misol qaysi?","Qaychi","Lampochka","Termometr","Magnit",0]
+];
+function renderQuiz(){let h="";qs.forEach((q,i)=>{h+=`<div class="card"><b>${i+1}. ${q[0]}</b>`;q.slice(1,5).forEach((a,j)=>h+=`<label><input type="radio" name="q${i}" value="${j}"> ${a}</label>`);h+="</div>"});$('quiz').innerHTML=h}
+function checkQuiz(){let score=0;qs.forEach((q,i)=>{let a=document.querySelector(`input[name=q${i}]:checked`);if(a&&+a.value===q[5])score++});$('score').textContent=`Natija: ${score}/${qs.length} (${Math.round(score/qs.length*100)}%)`;$('score').className="result "+(score>=8?"good":score>=5?"warn":"bad")}
+renderQuiz();
+</script>
+</body>
+</html>
