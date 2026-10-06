@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10-sinf fizika — Massa markazi, muvozanat va kuch momenti</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+.wrap{max-width:1100px;margin:auto;padding:18px}
+header{background:#183b56;color:white;padding:22px;border-radius:18px;margin-bottom:16px}
+h1{margin:0 0 8px;font-size:25px}h2{color:#183b56}h3{margin-bottom:8px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:15px}
+button{border:0;border-radius:10px;padding:11px 15px;background:#2868a6;color:white;font-weight:bold;cursor:pointer}
+button.secondary{background:#e6edf5;color:#183b56}.tab.active{background:#183b56}
+.panel{display:none}.panel.active{display:block}
+.card{background:white;border-radius:16px;padding:18px;margin-bottom:15px;box-shadow:0 2px 10px #00000012}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+@media(max-width:720px){.grid{grid-template-columns:1fr}.wrap{padding:10px}}
+.formula{background:#eef5fb;border-left:5px solid #2868a6;padding:12px;font-size:19px;font-weight:bold}
+canvas{width:100%;height:310px;background:#fbfdff;border:1px solid #dce5ef;border-radius:12px;display:block}
+label{display:block;margin:12px 0 5px;font-weight:bold}input[type=range]{width:100%}
+.value{font-weight:bold;color:#2868a6}.info{background:#f2f6fa;padding:12px;border-radius:10px;margin-top:10px}
+.small{font-size:14px;color:#536273}.quiz button{margin:5px 0;width:100%;text-align:left;background:#edf3f8;color:#172033}
+.quiz button:hover{background:#dceaf6}.result{font-weight:bold;margin-top:8px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:14px;margin-top:8px}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>12-MAVZU: Massa markazi. Muvozanat turlari. Kuch momenti</h1>
+<div>10-sinf fizika uchun interaktiv elektron dars</div>
+</header>
+
+<div class="tabs">
+<button class="tab active" data-tab="t1">1. Massa markazi</button>
+<button class="tab" data-tab="t2">2. Muvozanat</button>
+<button class="tab" data-tab="t3">3. Kuch momenti</button>
+<button class="tab" data-tab="lab">Laboratoriya</button>
+</div>
+
+<section id="t1" class="panel active">
+<div class="card">
+<h2>1. Massa markazi va uning turlari</h2>
+<p><b>Massa markazi</b> — jism yoki jismlar sistemasining massasi go‘yoki shu nuqtada jamlangandek qaraladigan nuqtadir. Bir jinsli va simmetrik jismlarda u odatda geometrik markazga to‘g‘ri keladi.</p>
+<p>Ikki jism uchun massa markazi:</p>
+<div class="formula">xₘ = (m₁x₁ + m₂x₂) / (m₁ + m₂)</div>
+<p>Bu yerda <b>m</b> — massa, <b>x</b> — tanlangan sanoq sistemasidagi koordinata.</p>
+</div>
+<div class="card">
+<h3>Simulyatsiya: Massa markazini topish</h3>
+<p>Massalarni va ularning joylashuvini o‘zgartiring. Ko‘k nuqta massa markazini bildiradi.</p>
+<div class="grid">
+<div>
+<label>m₁: <span id="m1v" class="value">2.0 kg</span></label>
+<input id="m1" type="range" min="0.5" max="10" step="0.5" value="2">
+<label>x₁: <span id="x1v" class="value">2.0 m</span></label>
+<input id="x1" type="range" min="0" max="10" step="0.1" value="2">
+</div>
+<div>
+<label>m₂: <span id="m2v" class="value">5.0 kg</span></label>
+<input id="m2" type="range" min="0.5" max="10" step="0.5" value="5">
+<label>x₂: <span id="x2v" class="value">8.0 m</span></label>
+<input id="x2" type="range" min="0" max="10" step="0.1" value="8">
+</div>
+</div>
+<canvas id="massCanvas" width="900" height="310"></canvas>
+<div id="massInfo" class="info"></div>
+</div>
+<div class="card">
+<h3>Misol</h3>
+<p>2 kg massa 2 m nuqtada, 5 kg massa 8 m nuqtada joylashsa:</p>
+<div class="formula">xₘ = (2·2 + 5·8)/(2+5) = 44/7 ≈ 6.29 m</div>
+<p>Demak, massa markazi massasi katta bo‘lgan jism tomonga yaqinroq joylashadi.</p>
+</div>
+</section>
+
+<section id="t2" class="panel">
+<div class="card">
+<h2>2. Jismlarning muvozanat turlari</h2>
+<p>Jismga ta’sir qiluvchi kuchlar va momentlar muvozanatlashganda jism muvozanat holatida bo‘ladi.</p>
+<div class="grid">
+<div><b>Turg‘un muvozanat:</b> jism kichik siljishdan so‘ng dastlabki holatiga qaytishga intiladi.</div>
+<div><b>Turg‘unmas muvozanat:</b> kichik siljish jismni dastlabki holatidan uzoqlashtiradi.</div>
+<div><b>Befarq muvozanat:</b> jism siljitilgach, yangi holatida qoladi.</div>
+<div><b>Barqarorlik:</b> massa markazi va tayanch yuzasining o‘zaro joylashuvi muhim.</div>
+</div>
+</div>
+<div class="card">
+<h3>Simulyatsiya: Muvozanat turlari</h3>
+<div class="tabs" id="eqBtns">
+<button class="eq active" data-mode="stable">Turg‘un</button>
+<button class="eq" data-mode="unstable">Turg‘unmas</button>
+<button class="eq" data-mode="neutral">Befarq</button>
+</div>
+<canvas id="eqCanvas" width="900" height="310"></canvas>
+<div id="eqInfo" class="info"></div>
+<button id="eqStart">▶ Boshlash / Siljitish</button>
+<button id="eqReset" class="secondary">↻ Qayta boshlash</button>
+</div>
+<div class="card">
+<h3>Animatsiya qanday ishlaydi?</h3>
+<p>“Boshlash / Siljitish” tugmasini bosing. Shar muvozanat holatidan siljiydi va tanlangan muvozanat turiga qarab qaytadi, uzoqlashadi yoki yangi holatda to‘xtaydi.</p>
+</div>
+</section>
+
+<section id="t3" class="panel">
+<div class="card">
+<h2>3. Kuch momenti</h2>
+<p>Kuchning jismni tayanch yoki o‘q atrofida aylantiruvchi ta’siri <b>kuch momenti</b> deyiladi.</p>
+<div class="formula">M = F · l</div>
+<p><b>M</b> — kuch momenti (N·m), <b>F</b> — kuch (N), <b>l</b> — kuch yelkasi (m).</p>
+<p>Richag muvozanatida qarama-qarshi yo‘nalgan momentlar teng bo‘lishi mumkin: <b>M₁ = M₂</b>.</p>
+</div>
+<div class="card">
+<h3>Simulyatsiya: Kuch momenti va richag</h3>
+<div class="grid">
+<div>
+<label>Chap kuch F₁: <span id="f1v" class="value">20 N</span></label>
+<input id="f1" type="range" min="0" max="50" step="1" value="20">
+<label>Chap yelka l₁: <span id="l1v" class="value">2.0 m</span></label>
+<input id="l1" type="range" min="0.5" max="4" step="0.1" value="2">
+</div>
+<div>
+<label>O‘ng kuch F₂: <span id="f2v" class="value">20 N</span></label>
+<input id="f2" type="range" min="0" max="50" step="1" value="20">
+<label>O‘ng yelka l₂: <span id="l2v" class="value">2.0 m</span></label>
+<input id="l2" type="range" min="0.5" max="4" step="0.1" value="2">
+</div>
+</div>
+<canvas id="momentCanvas" width="900" height="310"></canvas>
+<div id="momentInfo" class="info"></div>
+</div>
+<div class="card">
+<h3>Kundalik hayotdagi misollar</h3>
+<p>Eshikni tutqichidan ochish, kalit bilan boltni burash, qaychi, velosiped pedali va tarozi — kuch momentining amaliy ko‘rinishlaridir.</p>
+</div>
+</section>
+
+<section id="lab" class="panel">
+<div class="card">
+<h2>Yakuniy laboratoriya: Massa markazi + Muvozanat + Kuch momenti</h2>
+<p>Quyidagi qiymatlarni o‘zgartirib, richagni muvozanatga keltiring.</p>
+<label>F₁: <span id="lf1v" class="value">10 N</span></label>
+<input id="lf1" type="range" min="1" max="50" value="10">
+<label>l₁: <span id="ll1v" class="value">2.0 m</span></label>
+<input id="ll1" type="range" min="0.5" max="5" step="0.1" value="2">
+<label>F₂: <span id="lf2v" class="value">20 N</span></label>
+<input id="lf2" type="range" min="1" max="50" value="20">
+<label>l₂: <span id="ll2v" class="value">1.0 m</span></label>
+<input id="ll2" type="range" min="0.5" max="5" step="0.1" value="1">
+<canvas id="labCanvas" width="900" height="310"></canvas>
+<div id="labInfo" class="info"></div>
+</div>
+
+<div class="card quiz">
+<h3>5 ta nazorat savoli</h3>
+<p><b>1.</b> Massa markazi nimani bildiradi?</p>
+<button onclick="answer(this,false)">Faqat jismning geometrik shaklini</button>
+<button onclick="answer(this,true)">Jism massasining go‘yoki jamlangandek qaraladigan nuqtasini</button>
+<div class="result"></div>
+<p><b>2.</b> Turg‘un muvozanatda jism kichik siljishdan keyin qanday harakat qiladi?</p>
+<button onclick="answer(this,true)">Dastlabki muvozanat holatiga qaytishga intiladi</button>
+<button onclick="answer(this,false)">Har doim uzoqlashadi</button>
+<div class="result"></div>
+<p><b>3.</b> Kuch momentining formulasi qaysi?</p>
+<button onclick="answer(this,true)">M = F·l</button>
+<button onclick="answer(this,false)">M = F/l</button>
+<div class="result"></div>
+<p><b>4.</b> Kuch momenti birligi?</p>
+<button onclick="answer(this,true)">N·m</button>
+<button onclick="answer(this,false)">N/m</button>
+<div class="result"></div>
+<p><b>5.</b> Richag muvozanatida qaysi shart bajarilishi mumkin?</p>
+<button onclick="answer(this,true)">M₁ = M₂</button>
+<button onclick="answer(this,false)">M₁ har doim M₂ dan katta</button>
+<div class="result"></div>
+</div>
+</section>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+ document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');$(b.dataset.tab).classList.add('active');
+}));
+function val(id){return parseFloat($(id).value)}
+
+function drawMass(){
+ const c=$('massCanvas'),x=c.getContext('2d'),m1=val('m1'),m2=val('m2'),x1=val('x1'),x2=val('x2');
+ const xm=(m1*x1+m2*x2)/(m1+m2);
+ $('m1v').textContent=m1.toFixed(1)+' kg';$('m2v').textContent=m2.toFixed(1)+' kg';
+ $('x1v').textContent=x1.toFixed(1)+' m';$('x2v').textContent=x2.toFixed(1)+' m';
+ x.clearRect(0,0,c.width,c.height); const L=80,W=740,y=155;
+ x.strokeStyle='#60758a';x.lineWidth=8;x.beginPath();x.moveTo(L,y);x.lineTo(L+W,y);x.stroke();
+ x.fillStyle='#263b50';x.font='16px Arial';
+ for(let i=0;i<=10;i++){let px=L+i*W/10;x.lineWidth=1;x.strokeStyle='#9aabba';x.beginPath();x.moveTo(px,y-9);x.lineTo(px,y+9);x.stroke();x.fillText(i,px-4,y+35)}
+ function mass(px,m,label){let r=13+4*m;x.fillStyle='#2868a6';x.beginPath();x.arc(px,y,r,0,Math.PI*2);x.fill();x.fillStyle='white';x.font='bold 14px Arial';x.textAlign='center';x.fillText(label,px,y+5);x.textAlign='left'}
+ mass(L+x1*W/10,m1,'m₁');mass(L+x2*W/10,m2,'m₂');
+ let pm=L+xm*W/10;x.strokeStyle='#c34a4a';x.lineWidth=4;x.beginPath();x.moveTo(pm,y-65);x.lineTo(pm,y+65);x.stroke();
+ x.fillStyle='#c34a4a';x.beginPath();x.arc(pm,y,8,0,Math.PI*2);x.fill();x.font='bold 16px Arial';x.fillText('Massa markazi',pm-50,y-78);
+ $('massInfo').innerHTML='<b>xₘ = '+xm.toFixed(2)+' m</b><br>Massa markazi massasi katta bo‘lgan yuk tomoniga yaqinroq joylashadi.';
+}
+['m1','m2','x1','x2'].forEach(id=>$(id).addEventListener('input',drawMass));drawMass();
+
+let mode='stable', eqPos=0, eqRunning=false, eqFrame;
+function drawEq(){
+ const c=$('eqCanvas'),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);
+ const cx=450+eqPos, base=230;
+ x.strokeStyle='#53697d';x.lineWidth=4;
+ if(mode==='stable'){x.beginPath();x.moveTo(230,base);x.lineTo(670,base);x.stroke();x.fillStyle='#dce7f1';x.beginPath();x.moveTo(300,base);x.quadraticCurveTo(450,335,600,base);x.fill();x.stroke();}
+ else if(mode==='unstable'){x.beginPath();x.moveTo(300,base);x.lineTo(600,base);x.stroke();x.beginPath();x.moveTo(300,base);x.lineTo(450,100);x.lineTo(600,base);x.closePath();x.stroke();}
+ else {x.beginPath();x.moveTo(260,base);x.lineTo(640,base);x.stroke();}
+ x.fillStyle='#2868a6';x.beginPath();x.arc(cx,mode==='stable'?180:mode==='unstable'?112:195,25,0,Math.PI*2);x.fill();
+ x.fillStyle='#172033';x.font='bold 18px Arial';x.fillText(mode==='stable'?'Turg‘un':mode==='unstable'?'Turg‘unmas':'Befarq',20,35);
+ let t=mode==='stable'?'Siljitilganda qaytishga intiladi.':mode==='unstable'?'Siljitilganda muvozanatdan uzoqlashadi.':'Siljitilganda yangi holatda qoladi.';
+ $('eqInfo').innerHTML='<b>'+t+'</b> Massa markazi va tayanch/sirtning o‘zaro joylashuvi muvozanat barqarorligini belgilaydi.';
+}
+document.querySelectorAll('.eq').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.eq').forEach(x=>x.classList.remove('active'));b.classList.add('active');mode=b.dataset.mode;eqPos=0;drawEq()}));
+function animateEq(){
+ if(!eqRunning)return;
+ if(mode==='stable'){eqPos*=0.92;if(Math.abs(eqPos)<0.5){eqPos=0;eqRunning=false}}
+ else if(mode==='unstable'){eqPos+=eqPos>=0?2.2:-2.2;if(Math.abs(eqPos)>180){eqRunning=false}}
+ else {eqPos+=eqPos<100?2:0;if(eqPos>160)eqRunning=false}
+ drawEq();eqFrame=requestAnimationFrame(animateEq);
+}
+$('eqStart').onclick=()=>{if(eqRunning)return;eqPos=mode==='unstable'?-45:mode==='neutral'?0:55;eqRunning=true;animateEq()};
+$('eqReset').onclick=()=>{eqRunning=false;cancelAnimationFrame(eqFrame);eqPos=0;drawEq()};drawEq();
+
+function drawMoment(canvasId,f1,l1,f2,l2,infoId){
+ const c=$(canvasId),x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);
+ const M1=f1*l1,M2=f2*l2,diff=M1-M2;
+ const angle=Math.max(-0.28,Math.min(0.28,diff/100));
+ const cx=450,cy=160,L=270;
+ x.save();x.translate(cx,cy);x.rotate(angle);
+ x.strokeStyle='#526a80';x.lineWidth=10;x.beginPath();x.moveTo(-L,0);x.lineTo(L,0);x.stroke();
+ x.fillStyle='#394e63';x.beginPath();x.moveTo(-12,15);x.lineTo(12,15);x.lineTo(0,75);x.closePath();x.fill();
+ x.fillStyle='#2868a6';x.beginPath();x.arc(-L,0,18,0,Math.PI*2);x.fill();x.beginPath();x.arc(L,0,18,0,Math.PI*2);x.fill();
+ x.restore();
+ x.fillStyle='#c34a4a';x.font='bold 16px Arial';
+ x.fillText('F₁ = '+f1.toFixed(0)+' N',85,80);x.fillText('F₂ = '+f2.toFixed(0)+' N',690,80);
+ x.fillStyle='#172033';x.fillText('Tayanch',415,255);
+ let state=Math.abs(diff)<0.5?'MUVOZANATDA':diff>0?'Chap moment katta':'O‘ng moment katta';
+ $(infoId).innerHTML='<b>M₁ = '+M1.toFixed(1)+' N·m</b> &nbsp; | &nbsp; <b>M₂ = '+M2.toFixed(1)+' N·m</b><br><b>'+state+'</b>';
+}
+function updateMoment(){
+ let f1=val('f1'),l1=val('l1'),f2=val('f2'),l2=val('l2');
+ ['f1','f2'].forEach(id=>$(id+'v').textContent=val(id).toFixed(0)+' N');
+ ['l1','l2'].forEach(id=>$(id+'v').textContent=val(id).toFixed(1)+' m');
+ drawMoment('momentCanvas',f1,l1,f2,l2,'momentInfo');
+}
+['f1','f2','l1','l2'].forEach(id=>$(id).addEventListener('input',updateMoment));updateMoment();
+
+function updateLab(){
+ let f1=val('lf1'),l1=val('ll1'),f2=val('lf2'),l2=val('ll2');
+ $('lf1v').textContent=f1+' N';$('lf2v').textContent=f2+' N';$('ll1v').textContent=l1.toFixed(1)+' m';$('ll2v').textContent=l2.toFixed(1)+' m';
+ drawMoment('labCanvas',f1,l1,f2,l2,'labInfo');
+}
+['lf1','lf2','ll1','ll2'].forEach(id=>$(id).addEventListener('input',updateLab));updateLab();
+
+function answer(btn,correct){
+ const r=btn.parentElement.querySelectorAll('.result');
+ let p=btn.closest('p'),result=p.nextElementSibling;
+ while(result && !result.classList.contains('result')) result=result.nextElementSibling;
+ if(result) result.textContent=correct?'✓ To‘g‘ri javob!':'✗ Noto‘g‘ri. Qayta o‘ylab ko‘ring.';
+ if(result) result.style.color=correct?'#1d7a46':'#b33a3a';
+}
+</script>
+</body>
+</html>
