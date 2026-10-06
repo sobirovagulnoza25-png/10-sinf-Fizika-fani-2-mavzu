@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15-MAVZU: MEXANIK TEBRANISHLAR</title>
+<style>
+:root{
+  --bg:#07111f;--card:#0e1d31;--card2:#132842;--text:#eef7ff;--muted:#a9bdd1;
+  --accent:#35d6ff;--accent2:#8b7cff;--good:#42e695;--bad:#ff6b7a;--warn:#ffd166;
+  --border:rgba(255,255,255,.1);--shadow:0 16px 45px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+ margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:
+ radial-gradient(circle at 10% 0%,rgba(53,214,255,.12),transparent 28%),
+ radial-gradient(circle at 90% 10%,rgba(139,124,255,.13),transparent 30%),var(--bg);
+ color:var(--text);line-height:1.6
+}
+button,input{font:inherit}
+.container{max-width:1200px;margin:auto;padding:20px}
+.hero{min-height:330px;display:grid;place-items:center;text-align:center;padding:45px 20px}
+.hero-inner{max-width:900px}
+.badge{display:inline-block;padding:7px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(255,255,255,.06);color:var(--accent);font-weight:700}
+h1{font-size:clamp(34px,7vw,72px);line-height:1.05;margin:18px 0 12px}
+.hero p{color:var(--muted);font-size:18px}
+.nav{position:sticky;top:0;z-index:20;background:rgba(7,17,31,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1200px;margin:auto;display:flex;gap:8px;overflow:auto;padding:10px 20px}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--muted);padding:9px 13px;border-radius:10px}
+.nav a:hover{background:var(--card2);color:var(--text)}
+.progress-wrap{height:4px;background:rgba(255,255,255,.06)}
+.progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.2s}
+section{padding:30px 0}
+.section-title{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.section-title .num{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#06101b;font-weight:900}
+h2{font-size:clamp(26px,4vw,40px);margin:0}
+h3{margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{background:linear-gradient(145deg,rgba(19,40,66,.95),rgba(10,25,43,.95));border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+.card p{color:var(--muted)}
+.formula{font-size:24px;font-weight:800;text-align:center;padding:18px;border-radius:16px;background:rgba(53,214,255,.08);border:1px solid rgba(53,214,255,.22);margin:10px 0}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.07);color:var(--muted);font-size:14px}
+.example{border-left:4px solid var(--accent);padding:12px 16px;background:rgba(53,214,255,.05);border-radius:0 12px 12px 0}
+.sim{overflow:hidden}
+.controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:14px}
+.control{background:rgba(255,255,255,.04);padding:12px;border-radius:14px}
+.control label{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-weight:700}
+input[type=range]{width:100%;accent-color:var(--accent);margin-top:9px}
+.btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+button{border:0;border-radius:12px;padding:10px 15px;background:var(--card2);color:var(--text);cursor:pointer;font-weight:800;transition:.2s}
+button:hover{transform:translateY(-1px);filter:brightness(1.15)}
+button.primary{background:linear-gradient(135deg,var(--accent),#238bff);color:#03101b}
+button.good{background:linear-gradient(135deg,#42e695,#21c8a1);color:#031b14}
+button.danger{background:linear-gradient(135deg,#ff6b7a,#ff3d6e);color:white}
+canvas{width:100%;display:block;background:linear-gradient(180deg,#06101c,#091a2c);border-radius:16px;border:1px solid var(--border)}
+.sim-canvas{height:300px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.stat{padding:12px;border-radius:14px;background:rgba(255,255,255,.05);text-align:center}
+.stat b{display:block;font-size:22px;color:var(--accent)}
+.stat span{font-size:12px;color:var(--muted)}
+.note{padding:13px 15px;border-radius:14px;background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.2);color:#ffe8a8}
+.two-sim{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.sim-label{text-align:center;font-weight:900;font-size:18px;margin-bottom:8px}
+.resonance-box{position:relative}
+.res-badge{position:absolute;top:14px;right:14px;padding:8px 12px;border-radius:999px;background:var(--good);color:#032018;font-weight:900;display:none;animation:pulse .7s infinite alternate}
+@keyframes pulse{to{transform:scale(1.06);box-shadow:0 0 25px rgba(66,230,149,.45)}}
+.question{margin-top:14px;padding:16px;border-radius:16px;background:rgba(255,255,255,.035);border:1px solid var(--border)}
+.question strong{display:block;margin-bottom:10px}
+.options{display:grid;gap:8px}
+.option{width:100%;text-align:left}
+.feedback{margin-top:10px;font-weight:900;min-height:24px}
+.correct{color:var(--good)}.incorrect{color:var(--bad)}
+table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:14px}
+th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left}
+th{color:var(--accent);background:rgba(53,214,255,.05)}
+.footer{text-align:center;color:var(--muted);padding:45px 20px}
+.score-card{text-align:center;padding:28px}
+.score{font-size:54px;font-weight:900;color:var(--accent)}
+.checklist{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.check{padding:12px;border-radius:13px;background:rgba(66,230,149,.07);border:1px solid rgba(66,230,149,.15)}
+.small{font-size:13px;color:var(--muted)}
+@media(max-width:800px){
+ .grid,.grid3,.two-sim{grid-template-columns:1fr}
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .controls{grid-template-columns:1fr}
+ .container{padding:14px}
+}
+</style>
+</head>
+<body>
+<div class="hero">
+ <div class="hero-inner">
+  <span class="badge">10-SINF • FIZIKA • 15-MAVZU</span>
+  <h1>Mexanik tebranishlar</h1>
+  <p>Mexanik tebranishlar, erkin va majburiy tebranishlar hamda rezonansni animatsiya va simulyatsiyalar orqali o‘rganamiz.</p>
+  <div class="chips" style="justify-content:center;margin-top:18px">
+   <span class="chip">🎯 Interaktiv</span><span class="chip">⚙️ Simulyatsiya</span><span class="chip">📈 Grafiklar</span><span class="chip">🧠 Mini-testlar</span>
+  </div>
+ </div>
+</div>
+
+<div class="nav">
+ <div class="nav-inner">
+  <a href="#p1">1. Mexanik tebranishlar</a><a href="#p2">2. Erkin va majburiy</a><a href="#p3">3. Rezonans</a><a href="#final">Yakuniy test</a>
+ </div>
+ <div class="progress-wrap"><div class="progress" id="progress"></div></div>
+</div>
+
+<main class="container">
+<section id="p1">
+ <div class="section-title"><div class="num">1</div><h2>Mexanik tebranishlar</h2></div>
+ <div class="grid" style="margin-top:18px">
+  <div class="card">
+   <h3>Mexanik tebranish nima?</h3>
+   <p>Jismning muvozanat holati atrofida ma’lum vaqt oralig‘ida takrorlanib turadigan harakati <b>mexanik tebranish</b> deyiladi.</p>
+   <div class="example"><b>Misollar:</b> prujinaga osilgan yuk, mayatnik, soat mayatnigi, gitara torining tebranishi, avtomobil amortizatori.</div>
+  </div>
+  <div class="card">
+   <h3>Asosiy kattaliklar</h3>
+   <p><b>Amplituda A</b> — muvozanat holatidan eng katta og‘ish. SI: metr (m).</p>
+   <p><b>Davr T</b> — bitta to‘liq tebranishga ketgan vaqt. SI: sekund (s).</p>
+   <p><b>Chastota ν</b> — bir sekunddagi tebranishlar soni. SI: gers (Hz).</p>
+   <p><b>Faza</b> — tebranishning ayni paytdagi holatini ifodalovchi kattalik.</p>
+  </div>
+ </div>
+ <div class="grid" style="margin-top:16px">
+  <div class="card">
+   <h3>Formulalar</h3>
+   <div class="formula">T = t / N</div>
+   <div class="formula">ν = N / t</div>
+   <div class="formula">ν = 1 / T</div>
+   <p class="small">T — davr (s), ν — chastota (Hz), t — vaqt (s), N — tebranishlar soni.</p>
+  </div>
+  <div class="card">
+   <h3>Bir to‘liq tebranish</h3>
+   <p>Jism muvozanat holatidan bir tomonga chiqib, ikkinchi tomonga o‘tib, yana boshlang‘ich holatiga qaytsa, <b>1 ta to‘liq tebranish</b> bajarilgan bo‘ladi.</p>
+   <p>Muvozanat holatida jismning og‘ishi nolga teng bo‘ladi.</p>
+  </div>
+ </div>
+
+ <div class="card sim" style="margin-top:18px">
+  <h3>⚙️ Interaktiv simulyatsiya: prujinali yuk</h3>
+  <p>Amplitudani o‘zgartiring va yukning muvozanat atrofidagi harakatini kuzating. Ideal modelda davr va chastota tanlangan qiymatlar orqali ko‘rsatiladi.</p>
+  <canvas id="springCanvas" class="sim-canvas"></canvas>
+  <div class="controls">
+   <div class="control"><label>Amplituda <span id="ampVal">80 px</span></label><input id="amp" type="range" min="20" max="140" value="80"></div>
+   <div class="control"><label>Davr T <span id="periodVal">2.00 s</span></label><input id="period" type="range" min="0.5" max="4" step="0.1" value="2"></div>
+  </div>
+  <div class="btns"><button class="primary" id="springStart">▶ Boshlash</button><button id="springPause">⏸ To‘xtatish</button><button class="danger" id="springReset">↺ Qayta boshlash</button></div>
+  <div class="stats">
+   <div class="stat"><b id="sAmp">80 px</b><span>Amplituda A</span></div>
+   <div class="stat"><b id="sT">2.00 s</b><span>Davr T</span></div>
+   <div class="stat"><b id="sNu">0.50 Hz</b><span>Chastota ν</span></div>
+   <div class="stat"><b id="sTime">0.00 s</b><span>Vaqt</span></div>
+  </div>
+ </div>
+ <div class="grid3" style="margin-top:16px">
+  <div class="card"><h3>Hayotda</h3><p>Soat mayatnigi vaqtni o‘lchashda, musiqa asboblarida esa tovush hosil qilishda tebranishlardan foydalaniladi.</p></div>
+  <div class="card"><h3>Texnikada</h3><p>Avtomobil osmasi, vibratsion qurilmalar va o‘lchov asboblarida tebranish xususiyatlari hisobga olinadi.</p></div>
+  <div class="card"><h3>Tabiatda</h3><p>Ko‘prik, bino yoki daraxt shamol ta’sirida tebranishi mumkin. Muhandislar bunday tebranishlarni oldindan hisoblaydi.</p></div>
+ </div>
+ <div id="quiz1"></div>
+</section>
+
+<section id="p2">
+ <div class="section-title"><div class="num">2</div><h2>Erkin va majburiy tebranishlar</h2></div>
+ <div class="grid" style="margin-top:18px">
+  <div class="card">
+   <h3>🟢 Erkin tebranish</h3>
+   <p>Jism muvozanat holatidan chiqarilib, unga boshlang‘ich turtki berilgach, keyin tashqi davriy kuchsiz o‘zining ichki kuchlari ta’sirida tebranadi.</p>
+   <p><b>Misollar:</b> prujinali yukni cho‘zib qo‘yib yuborish; mayatnikni chetga og‘dirib qo‘yish.</p>
+  </div>
+  <div class="card">
+   <h3>🔵 Majburiy tebranish</h3>
+   <p>Jismga tashqi manba tomonidan davriy kuch ta’sir qilib turganda yuz beradigan tebranish <b>majburiy tebranish</b> deyiladi.</p>
+   <p><b>Misollar:</b> tebranuvchi platforma, dvigatel vibratsiyasi, tebranuvchi musiqa asbobi.</p>
+  </div>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <h3>Farqini eslab qoling</h3>
+  <table><thead><tr><th>Belgisi</th><th>Erkin tebranish</th><th>Majburiy tebranish</th></tr></thead>
+  <tbody><tr><td>Sabab</td><td>Bir martalik boshlang‘ich turtki</td><td>Davriy tashqi kuch</td></tr>
+  <tr><td>Energiya</td><td>Tizimning boshlang‘ich energiyasi</td><td>Tashqi manbadan uzatiladi</td></tr>
+  <tr><td>Chastota</td><td>Asosan xususiy chastotaga bog‘liq</td><td>Tashqi kuch chastotasi bilan belgilanadi</td></tr></tbody></table>
+ </div>
+
+ <div class="card sim" style="margin-top:18px">
+  <h3>🎛️ Interaktiv taqqoslash</h3>
+  <div class="two-sim">
+   <div>
+    <div class="sim-label">🟢 ERKIN TEBRANISH</div>
+    <canvas id="freeCanvas" class="sim-canvas"></canvas>
+    <div class="btns"><button class="good" id="freeStart">▶ Erkinni boshlash</button><button id="freeReset">↺ Reset</button></div>
+   </div>
+   <div>
+    <div class="sim-label">🔵 MAJBURIY TEBRANISH</div>
+    <canvas id="forcedCanvas" class="sim-canvas"></canvas>
+    <div class="control"><label>Tashqi kuch chastotasi <span id="driveVal">0.80 Hz</span></label><input id="drive" type="range" min="0.2" max="2.2" step="0.05" value="0.8"></div>
+    <div class="btns"><button class="primary" id="forcedStart">▶ Majburiyni boshlash</button><button id="forcedPause">⏸ To‘xtatish</button><button id="forcedReset">↺ Reset</button></div>
+   </div>
+  </div>
+  <div class="stats">
+   <div class="stat"><b id="freeAmp">100%</b><span>Erkin amplituda</span></div>
+   <div class="stat"><b id="driveStat">0.80 Hz</b><span>Tashqi chastota</span></div>
+   <div class="stat"><b>0.90 Hz</b><span>Namunaviy xususiy chastota</span></div>
+   <div class="stat"><b id="forcedAmp">—</b><span>Majburiy amplituda</span></div>
+  </div>
+ </div>
+ <div id="quiz2"></div>
+</section>
+
+<section id="p3">
+ <div class="section-title"><div class="num">3</div><h2>Rezonans hodisasi</h2></div>
+ <div class="grid" style="margin-top:18px">
+  <div class="card">
+   <h3>✨ Rezonans nima?</h3>
+   <p>Agar tashqi davriy kuchning chastotasi tizimning xususiy chastotasiga juda yaqinlashsa, tebranish amplitudasi keskin ortishi mumkin. Bu <b>rezonans</b> deyiladi.</p>
+   <div class="formula">ν<sub>tashqi</sub> ≈ ν<sub>xususiy</sub> → REZONANS</div>
+  </div>
+  <div class="card">
+   <h3>Foydali va zararli tomonlari</h3>
+   <p><b>Foydali:</b> radio sozlash, ayrim o‘lchov va mexanik qurilmalar, musiqa asboblarida kerakli tebranishni kuchaytirish.</p>
+   <p><b>Zararli:</b> ko‘priklar, binolar yoki mashina qismlarida kuchli vibratsiya paydo bo‘lishi mumkin. Shu sababli konstruktorlar rezonansni hisobga oladi.</p>
+  </div>
+ </div>
+
+ <div class="card sim resonance-box" style="margin-top:18px">
+  <div id="resBadge" class="res-badge">REZONANS!</div>
+  <h3>📈 Interaktiv rezonans simulyatsiyasi</h3>
+  <p>Tashqi kuch chastotasini slider bilan o‘zgartiring. Xususiy chastotaga yaqinlashganda amplitudaning qanday oshishini kuzating.</p>
+  <canvas id="resCanvas" class="sim-canvas"></canvas>
+  <div class="controls">
+   <div class="control"><label>Tashqi kuch chastotasi <span id="resFreqVal">0.90 Hz</span></label><input id="resFreq" type="range" min="0.2" max="1.8" step="0.01" value="0.9"></div>
+   <div class="control"><label>Xususiy chastota <span>0.90 Hz</span></label><input type="range" min="0.9" max="0.9" value="0.9" disabled></div>
+  </div>
+  <div class="stats">
+   <div class="stat"><b>0.90 Hz</b><span>Xususiy chastota</span></div>
+   <div class="stat"><b id="resDrive">0.90 Hz</b><span>Tashqi chastota</span></div>
+   <div class="stat"><b id="resAmp">100%</b><span>Amplituda</span></div>
+   <div class="stat"><b id="resState">Rezonans</b><span>Holat</span></div>
+  </div>
+  <h3 style="margin-top:20px">Chastota–amplituda grafigi</h3>
+  <canvas id="graphCanvas" style="height:300px"></canvas>
+ </div>
+ <div id="quiz3"></div>
+</section>
+
+<section id="final">
+ <div class="section-title"><div class="num">✓</div><h2>Yakuniy qism</h2></div>
+ <div class="card" style="margin-top:18px">
+  <h3>📚 Bugun nimalarni o‘rgandik?</h3>
+  <div class="checklist">
+   <div class="check"><b>1-reja:</b><br>Mexanik tebranish, A, T, ν, faza va muvozanat.</div>
+   <div class="check"><b>2-reja:</b><br>Erkin va majburiy tebranishlarning farqi.</div>
+   <div class="check"><b>3-reja:</b><br>Rezonans va uning foydali/zararli tomonlari.</div>
+  </div>
+ </div>
+ <div class="card" style="margin-top:16px">
+  <h3>📋 Asosiy formulalar jadvali</h3>
+  <table><thead><tr><th>Kattalik</th><th>Formula</th><th>SI birligi</th></tr></thead>
+  <tbody>
+   <tr><td>Davr</td><td>T = t / N</td><td>s</td></tr>
+   <tr><td>Chastota</td><td>ν = N / t</td><td>Hz</td></tr>
+   <tr><td>Davr–chastota</td><td>ν = 1 / T</td><td>Hz</td></tr>
+  </tbody></table>
+ </div>
+ <div class="card score-card" style="margin-top:16px">
+  <h3>🏆 Yakuniy natija</h3>
+  <div class="score" id="score">0%</div>
+  <p id="scoreText">Savollarga javob bering — natijangiz shu yerda ko‘rinadi.</p>
+  <button class="primary" id="finalReset">↺ Natijani qayta boshlash</button>
+ </div>
+ <div id="finalQuiz"></div>
+</section>
+</main>
+<div class="footer">15-MAVZU: MEXANIK TEBRANISHLAR • 10-SINF FIZIKA • Mustaqil offline WEB-DARS</div>
+
+<script>
+/* ---------- Common ---------- */
+const $ = id => document.getElementById(id);
+let quizCorrect=0, quizAnswered=0;
+function updateScore(){
+  const p=quizAnswered?Math.round(quizCorrect/quizAnswered*100):0;
+  $('score').textContent=p+'%';
+  $('scoreText').textContent=quizAnswered?`${quizAnswered} ta savoldan ${quizCorrect} tasi to‘g‘ri. ${p>=80?'Ajoyib natija!':p>=60?'Yaxshi, yana bir bor takrorlab ko‘ring.':'Mavzuni yana bir marta ko‘rib chiqing.'}`:'Savollarga javob bering — natijangiz shu yerda ko‘rinadi.';
+}
+function makeQuiz(targetId, title, questions){
+ const box=$(targetId);
+ let html=`<div class="card" style="margin-top:16px"><h3>🧠 ${title}</h3>`;
+ questions.forEach((q,i)=>{
+  html+=`<div class="question"><strong>${i+1}. ${q.q}</strong><div class="options">`;
+  q.a.forEach((a,j)=>html+=`<button class="option" data-correct="${j===q.c}" data-q="${targetId}-${i}">${String.fromCharCode(65+j)}) ${a}</button>`);
+  html+=`</div><div class="feedback" id="fb-${targetId}-${i}"></div></div>`;
+ });
+ html+='</div>'; box.innerHTML=html;
+ box.querySelectorAll('.option').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+   const key=btn.dataset.q, fb=$('fb-'+key);
+   if(btn.parentElement.dataset.done) return;
+   btn.parentElement.dataset.done='1'; quizAnswered++;
+   if(btn.dataset.correct==='true'){quizCorrect++;fb.textContent='TO‘G‘RI! ✓';fb.className='feedback correct'}
+   else{fb.textContent='QAYTA URINIB KO‘RING! ✗';fb.className='feedback incorrect'}
+   updateScore();
+  });
+ });
+}
+makeQuiz('quiz1','1-reja mini-test',[
+ {q:'Tebranish davri T nimani bildiradi?',a:['Bir sekunddagi tebranishlar sonini','Bir to‘liq tebranishga ketgan vaqtni','Eng katta og‘ishni','Kuchni'],c:1},
+ {q:'Chastotaning SI birligi qaysi?',a:['metr','sekund','gers','nyuton'],c:2},
+ {q:'A = 0.20 m nimani bildiradi?',a:['Davrni','Chastotani','Amplitudani','Massani'],c:2},
+ {q:'T va ν orasidagi bog‘lanish qaysi?',a:['ν = T','ν = 1 / T','ν = T²','ν = 2T'],c:1}
+]);
+makeQuiz('quiz2','2-reja mini-test',[
+ {q:'Erkin tebranish qanday boshlanishi mumkin?',a:['Bir martalik turtki bilan','Faqat doimiy tashqi kuch bilan','Faqat yorug‘lik bilan','Faqat elektr toki bilan'],c:0},
+ {q:'Majburiy tebranishning asosiy sababi nima?',a:['Davriy tashqi kuch','Massaning yo‘qolishi','Haroratning nol bo‘lishi','Vakuum'],c:0},
+ {q:'Prujinali yukni cho‘zib qo‘yib yuborish qaysi tebranishga misol?',a:['Erkin','Majburiy','Rezonans sharti','To‘g‘ri chiziqli tekis'],c:0}
+]);
+makeQuiz('quiz3','3-reja mini-test',[
+ {q:'Rezonans qachon yuz beradi?',a:['νtashqi juda kichik bo‘lganda','νtashqi ≈ νxususiy bo‘lganda','T = 0 bo‘lganda','A = 0 bo‘lganda'],c:1},
+ {q:'Rezonansda odatda nima keskin ortadi?',a:['Massa','Amplituda','Zichlik','Vaqt'],c:1},
+ {q:'Rezonansning zararli tomoni qaysi?',a:['Konstruktsiyada kuchli vibratsiya','Vaqtni o‘lchash','Tovush chiqarish','Radio sozlash'],c:0},
+ {q:'Rezonansni ifodalovchi shart?',a:['νtashqi ≈ νxususiy','νtashqi = 0','T = ∞','A = 0'],c:0}
+]);
+makeQuiz('finalQuiz','Yakuniy 8 ta test',[
+ {q:'T = t / N formulada N nimani bildiradi?',a:['Kuch','Tebranishlar soni','Massani','Amplitudani'],c:1},
+ {q:'ν = 5 Hz nimani anglatadi?',a:['5 s da 1 tebranish','1 s da 5 tebranish','5 m masofa','5 N kuch'],c:1},
+ {q:'Muvozanat holatida og‘ish qanday?',a:['Maksimal','Nol','Cheksiz','Doimiy 1 m'],c:1},
+ {q:'Erkin tebranishga misol?',a:['Tashqi dvigatel kuchi bilan tebranish','Chetga chiqarib qo‘yib yuborilgan mayatnik','Doimiy tortish kuchi','Yoritilgan ekran'],c:1},
+ {q:'Majburiy tebranishda nima mavjud?',a:['Davriy tashqi kuch','Faqat gravitatsiya','Hech qanday energiya','Faqat ishqalanish'],c:0},
+ {q:'Rezonansda amplituda qanday o‘zgaradi?',a:['Keskin ortishi mumkin','Har doim nol bo‘ladi','O‘zgarmaydi','Faqat kamayadi'],c:0},
+ {q:'Chastota va davr bog‘lanishi?',a:['ν = T','ν = 1 / T','ν = T / 2','ν = 2T'],c:1},
+ {q:'Rezonansdan saqlanish uchun muhandislar nimani hisobga oladi?',a:['Xususiy va tashqi chastotalarni','Faqat rangni','Faqat massani','Faqat uzunlikni'],c:0}
+]);
+
+$('finalReset').onclick=()=>{
+ document.querySelectorAll('.options').forEach(o=>delete o.dataset.done);
+ document.querySelectorAll('.feedback').forEach(f=>{f.textContent='';f.className='feedback'});
+ quizCorrect=0;quizAnswered=0;updateScore();
+};
+
+/* ---------- Progress ---------- */
+window.addEventListener('scroll',()=>{
+ const d=document.documentElement;
+ $('progress').style.width=(d.scrollTop/(d.scrollHeight-d.clientHeight)*100)+'%';
+});
+
+/* ---------- Canvas helpers ---------- */
+function fitCanvas(c){
+ const r=c.getBoundingClientRect(), d=devicePixelRatio||1;
+ c.width=Math.max(1,r.width*d);c.height=Math.max(1,r.height*d);
+ const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);
+ return [x,r.width,r.height];
+}
+function springDraw(c, xPos, amp, t, label=''){
+ const [ctx,w,h]=fitCanvas(c);
+ ctx.clearRect(0,0,w,h);
+ const cy=h*0.48, wallX=35, eq=w*0.58;
+ ctx.strokeStyle='rgba(255,255,255,.22)';ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(wallX,50);ctx.lineTo(wallX,h-50);ctx.stroke();
+ ctx.setLineDash([6,6]);ctx.beginPath();ctx.moveTo(eq,30);ctx.lineTo(eq,h-30);ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='rgba(53,214,255,.8)';ctx.fillRect(eq-2,cy-90,4,180);
+ const k=9, end=xPos-25;
+ ctx.beginPath();ctx.moveTo(wallX,cy);
+ for(let i=0;i<=k;i++){
+   const xx=wallX+(end-wallX)*i/k;
+   const yy=cy+(i===0||i===k?0:(i%2? -18:18));
+   ctx.lineTo(xx,yy);
+ }
+ ctx.strokeStyle='#35d6ff';ctx.lineWidth=3;ctx.stroke();
+ ctx.beginPath();ctx.arc(xPos,cy,24,0,Math.PI*2);ctx.fillStyle='#8b7cff';ctx.fill();ctx.strokeStyle='#fff';ctx.stroke();
+ ctx.fillStyle='#a9bdd1';ctx.font='14px Segoe UI';ctx.fillText('Muvozanat',eq-38,25);
+ ctx.strokeStyle='#ffd166';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(eq,cy+52);ctx.lineTo(xPos,cy+52);ctx.stroke();
+ ctx.fillStyle='#ffd166';ctx.fillText('A',Math.min(eq,xPos)+Math.abs(xPos-eq)/2-4,cy+70);
+}
+
+/* Spring simulation */
+let springRunning=true,springStartTime=performance.now(),springPauseOffset=0;
+function springLoop(now){
+ const amp=+$('amp').value, T=+$('period').value;
+ $('ampVal').textContent=amp+' px';$('periodVal').textContent=T.toFixed(2)+' s';
+ $('sAmp').textContent=amp+' px';$('sT').textContent=T.toFixed(2)+' s';$('sNu').textContent=(1/T).toFixed(2)+' Hz';
+ let elapsed=springRunning?(now-springStartTime)/1000+springPauseOffset:springPauseOffset;
+ $('sTime').textContent=elapsed.toFixed(2)+' s';
+ const c=$('springCanvas'),w=c.getBoundingClientRect().width, eq=w*.58;
+ const x=eq+amp*Math.sin(2*Math.PI*elapsed/T);
+ springDraw(c,x,amp,elapsed);
+ requestAnimationFrame(springLoop);
+}
+$('springStart').onclick=()=>{if(!springRunning){springStartTime=performance.now();springPauseOffset=+$('sTime').textContent||0;springRunning=true}};
+$('springPause').onclick=()=>{if(springRunning){springPauseOffset=+$('sTime').textContent||0;springRunning=false}};
+$('springReset').onclick=()=>{springPauseOffset=0;springStartTime=performance.now();springRunning=true};
+requestAnimationFrame(springLoop);
+
+/* Free/forced */
+let freeRun=false, freeT0=performance.now(), forcedRun=false, forcedT0=performance.now();
+function drawPendulum(c,theta,forceColor){
+ const [ctx,w,h]=fitCanvas(c);ctx.clearRect(0,0,w,h);
+ const px=w/2,py=38,L=Math.min(w*.34,120);
+ const bx=px+Math.sin(theta)*L, by=py+Math.cos(theta)*L;
+ ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(bx,by);ctx.stroke();
+ ctx.beginPath();ctx.arc(bx,by,23,0,Math.PI*2);ctx.fillStyle=forceColor;ctx.fill();ctx.strokeStyle='#fff';ctx.stroke();
+ ctx.fillStyle='#a9bdd1';ctx.font='13px Segoe UI';ctx.fillText('muvozanat',px-35,py+L+45);
+}
+function sim2Loop(now){
+ let t=(now-freeT0)/1000;
+ let theta=freeRun?0.75*Math.cos(t*2*Math.PI*.9)*Math.exp(-t*.08):0.75;
+ drawPendulum($('freeCanvas'),theta,'#42e695');
+ if(freeRun)$('freeAmp').textContent=Math.round(100*Math.exp(-t*.08))+'%';
+ const drive=+$('drive').value;
+ $('driveVal').textContent=drive.toFixed(2)+' Hz';$('driveStat').textContent=drive.toFixed(2)+' Hz';
+ let ft=(now-forcedT0)/1000;
+ let resonance=Math.abs(drive-.9), amp=0.15/(resonance+.12);
+ amp=Math.min(.85,amp);
+ let th=forcedRun?amp*Math.sin(2*Math.PI*drive*ft):0;
+ drawPendulum($('forcedCanvas'),th,'#35d6ff');
+ $('forcedAmp').textContent=forcedRun?Math.round(amp/0.85*100)+'%':'—';
+ requestAnimationFrame(sim2Loop);
+}
+$('freeStart').onclick=()=>{freeRun=true;freeT0=performance.now()};
+$('freeReset').onclick=()=>{freeRun=false;freeT0=performance.now();$('freeAmp').textContent='100%'};
+$('forcedStart').onclick=()=>{forcedRun=true;forcedT0=performance.now()};
+$('forcedPause').onclick=()=>{forcedRun=false};
+$('forcedReset').onclick=()=>{forcedRun=false;forcedT0=performance.now();$('forcedAmp').textContent='—'};
+requestAnimationFrame(sim2Loop);
+
+/* Resonance */
+function resonanceAmplitude(f){
+ const d=Math.abs(f-.9);
+ return Math.min(100, 5 + 95*Math.exp(-(d*d)/0.025));
+}
+function drawResonance(){
+ const f=+$('resFreq').value,A=resonanceAmplitude(f);
+ $('resFreqVal').textContent=f.toFixed(2)+' Hz';$('resDrive').textContent=f.toFixed(2)+' Hz';
+ $('resAmp').textContent=Math.round(A)+'%';
+ const isRes=Math.abs(f-.9)<.08;
+ $('resState').textContent=isRes?'Rezonans':'Oddiy holat';$('resBadge').style.display=isRes?'block':'none';
+}
+function drawResGraph(){
+ const c=$('graphCanvas'),[ctx,w,h]=fitCanvas(c);ctx.clearRect(0,0,w,h);
+ const left=50,right=18,top=18,bottom=40,gw=w-left-right,gh=h-top-bottom;
+ ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=1;
+ ctx.beginPath();ctx.moveTo(left,top);ctx.lineTo(left,h-bottom);ctx.lineTo(w-right,h-bottom);ctx.stroke();
+ ctx.fillStyle='#a9bdd1';ctx.font='12px Segoe UI';ctx.fillText('A',15,top+5);ctx.fillText('ν (Hz)',w-45,h-12);
+ ctx.beginPath();
+ for(let i=0;i<=240;i++){
+   const f=.2+i/240*1.6, a=resonanceAmplitude(f);
+   const x=left+(f-.2)/1.6*gw,y=h-bottom-(a/100)*gh;
+   i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+ }
+ ctx.strokeStyle='#35d6ff';ctx.lineWidth=3;ctx.stroke();
+ const f=+$('resFreq').value,a=resonanceAmplitude(f),x=left+(f-.2)/1.6*gw,y=h-bottom-(a/100)*gh;
+ ctx.beginPath();ctx.arc(x,y,6,0,Math.PI*2);ctx.fillStyle='#ffd166';ctx.fill();
+ ctx.strokeStyle='rgba(255,209,102,.35)';ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(x,top);ctx.lineTo(x,h-bottom);ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='#ffd166';ctx.fillText('tanlangan chastota',Math.max(left,x-45),top+18);
+}
+let resT=performance.now();
+function resLoop(now){
+ const f=+$('resFreq').value,A=resonanceAmplitude(f);
+ const [ctx,w,h]=fitCanvas($('resCanvas'));ctx.clearRect(0,0,w,h);
+ const eq=w*.55, amp=35+A*0.85, t=(now-resT)/1000;
+ const x=eq+amp*Math.sin(2*Math.PI*f*t);
+ springDraw($('resCanvas'),x,amp,t);
+ drawResonance();drawResGraph();requestAnimationFrame(resLoop);
+}
+$('resFreq').addEventListener('input',drawResonance);
+requestAnimationFrame(resLoop);
+
+/* Initial sizing */
+window.addEventListener('resize',()=>{});
+</script>
+</body>
+</html>
