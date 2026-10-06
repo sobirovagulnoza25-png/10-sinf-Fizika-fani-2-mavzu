@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>10-sinf Fizika — Prujinali va matematik mayatniklar</title>
+<style>
+:root{
+  --bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#64748b;--primary:#2563eb;
+  --primary2:#7c3aed;--accent:#06b6d4;--good:#16a34a;--bad:#dc2626;
+  --line:#dbe3ef;--shadow:0 12px 35px rgba(30,50,90,.10);
+}
+body.dark{--bg:#0f172a;--card:#172033;--text:#e8eef8;--muted:#9eabc0;--line:#2b3950;--shadow:0 12px 35px rgba(0,0,0,.28)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+button,input{font:inherit}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top{max-width:1250px;margin:auto;padding:12px 18px;display:flex;align-items:center;gap:14px}
+.logo{font-weight:900;color:var(--primary);font-size:20px;white-space:nowrap}
+.top small{color:var(--muted)}
+.spacer{flex:1}
+.iconbtn,.btn{border:0;border-radius:12px;padding:10px 15px;cursor:pointer;font-weight:700}
+.iconbtn{background:var(--bg);color:var(--text);border:1px solid var(--line)}
+.btn{background:linear-gradient(135deg,var(--primary),var(--primary2));color:white;box-shadow:0 7px 18px rgba(37,99,235,.22)}
+.btn.secondary{background:var(--bg);color:var(--text);border:1px solid var(--line);box-shadow:none}
+.progress-wrap{max-width:1250px;margin:auto;padding:0 18px 10px}
+.progress{height:7px;background:var(--line);border-radius:9px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent),var(--primary2));transition:.3s}
+nav{max-width:1250px;margin:auto;padding:9px 18px;display:flex;gap:7px;overflow:auto}
+nav button{white-space:nowrap;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:20px;padding:7px 12px;cursor:pointer}
+nav button.active{background:var(--primary);color:white;border-color:var(--primary)}
+main{max-width:1250px;margin:auto;padding:28px 18px 60px}
+.hero{padding:34px;border-radius:26px;background:linear-gradient(135deg,#172554,#312e81 55%,#0369a1);color:white;box-shadow:var(--shadow);overflow:hidden;position:relative}
+.hero:after{content:"∿";position:absolute;right:30px;top:-30px;font-size:210px;opacity:.08}
+.hero h1{font-size:clamp(30px,5vw,56px);line-height:1.05;margin:0 0 12px}
+.hero p{max-width:800px;color:#dbeafe;font-size:18px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.badge{background:rgba(255,255,255,.13);padding:7px 12px;border-radius:999px}
+section{scroll-margin-top:145px;margin-top:35px}
+h2{font-size:30px;margin:0 0 16px}
+h3{margin-top:4px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow);margin:15px 0}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media(max-width:850px){.grid,.grid3{grid-template-columns:1fr}.top small{display:none}}
+.definition{border-left:5px solid var(--primary);padding-left:15px}
+.formula{font-size:28px;text-align:center;background:linear-gradient(135deg,rgba(37,99,235,.08),rgba(124,58,237,.08));border:1px solid var(--line);border-radius:18px;padding:18px;font-family:Georgia,serif;margin:12px 0}
+.vars{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.var{position:relative;padding:9px 13px;border:1px solid var(--line);border-radius:12px;background:var(--bg);cursor:pointer}
+.var:hover{border-color:var(--primary)}
+.tooltip{position:fixed;z-index:100;max-width:240px;background:#111827;color:white;padding:9px 12px;border-radius:9px;font-size:13px;display:none}
+ul{padding-left:22px}.note{color:var(--muted)}
+.sim{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+@media(max-width:850px){.sim{grid-template-columns:1fr}}
+canvas{width:100%;height:390px;background:linear-gradient(180deg,#eff6ff,#f8fafc);border-radius:18px;border:1px solid var(--line);display:block}
+body.dark canvas{background:linear-gradient(180deg,#162238,#0f172a)}
+.controls{display:grid;gap:12px}
+.control{padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--bg)}
+.control label{display:flex;justify-content:space-between;font-weight:700}
+input[type=range]{width:100%;accent-color:var(--primary)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.metric{padding:11px;text-align:center;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.metric b{display:block;font-size:20px;color:var(--primary)}
+.energy{height:24px;border-radius:12px;background:var(--line);overflow:hidden;display:flex;margin:12px 0}
+.energy span{height:100%;transition:width .12s}
+.ke{background:#06b6d4}.pe{background:#8b5cf6}
+.legend{display:flex;gap:14px;font-size:13px}.dot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px}
+table{width:100%;border-collapse:collapse;overflow:hidden;border-radius:14px}
+th,td{border:1px solid var(--line);padding:11px;text-align:left;vertical-align:top}
+th{background:rgba(37,99,235,.1)}
+.reveal{display:none;margin-top:12px;padding:14px;border-radius:13px;background:rgba(22,163,74,.08);border-left:4px solid var(--good)}
+.reveal.show{display:block}
+.problem{border-top:1px dashed var(--line);padding-top:15px;margin-top:15px}
+.option{display:block;width:100%;text-align:left;padding:11px;margin:7px 0;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text);cursor:pointer}
+.option.correct{background:rgba(22,163,74,.15);border-color:var(--good)}
+.option.wrong{background:rgba(220,38,38,.13);border-color:var(--bad)}
+.feedback{font-weight:800;margin-top:8px}
+.test-card{margin-bottom:13px}
+.score{font-size:22px;font-weight:900}
+.footer{text-align:center;color:var(--muted);padding:35px}
+.kbd{font-family:monospace;background:var(--bg);border:1px solid var(--line);padding:2px 6px;border-radius:5px}
+.smallcaps{text-transform:uppercase;letter-spacing:.08em;color:var(--primary);font-size:12px;font-weight:900}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="logo">⚛ Fizika • 10-sinf</div>
+    <small>16-mavzu: Mayatniklar</small>
+    <div class="spacer"></div>
+    <button class="iconbtn" id="themeBtn">🌙 Rejim</button>
+  </div>
+  <div class="progress-wrap"><div class="progress"><i id="progressBar"></i></div></div>
+  <nav id="nav"></nav>
+</header>
+
+<main>
+<section id="kirish" class="hero">
+  <div class="smallcaps" style="color:#bae6fd">16-MAVZU</div>
+  <h1>Prujinali va matematik mayatniklar</h1>
+  <p>O‘qi • kuzat • tajriba qil • formulani tekshir • masala yech • test topshir.</p>
+  <div class="badges"><span class="badge">🔬 Interaktiv</span><span class="badge">🎞 Animatsiyali</span><span class="badge">📱 Mobilga mos</span><span class="badge">🌙 Dark mode</span></div>
+</section>
+
+<section id="prujina">
+<h2>1. Prujinali mayatniklar</h2>
+<div class="grid">
+<div class="card definition"><h3>📘 Prujinali mayatnik nima?</h3>
+<p>Prujinali mayatnik — prujinaga biriktirilgan yukning muvozanat holati atrofida takroriy tebranishidir. Prujina yukni muvozanatga qaytaruvchi elastik kuch hosil qiladi.</p>
+<h3>Tuzilishi</h3><ul><li>mahkamlangan tayanch;</li><li>prujina;</li><li>yuk (massa <b>m</b>);</li><li>muvozanat holati.</li></ul></div>
+<div class="card"><h3>🔄 Tebranish qanday kechadi?</h3>
+<p>Yuk muvozanatdan yuqoriga yoki pastga siljitilib qo‘yib yuborilsa, prujinaning elastik kuchi uni muvozanatga qaytaradi. Inersiya sabab yuk muvozanatdan o‘tib ketadi va jarayon takrorlanadi.</p>
+<p><b>Amplituda A</b> — muvozanat holatidan eng katta siljish.</p><p><b>Davr T</b> — bitta to‘liq tebranishga ketgan vaqt.</p><p><b>Chastota ν</b> — bir sekunddagi tebranishlar soni.</p></div>
+</div>
+
+<div class="card">
+<h3>📐 Asosiy formulalar</h3>
+<div class="formula">T = 2π√(m/k)</div>
+<div class="vars">
+<span class="var" data-tip="T — tebranish davri, sekund (s).">T</span>
+<span class="var" data-tip="m — yuk massasi, kilogramm (kg).">m</span>
+<span class="var" data-tip="k — prujinaning bikrlik koeffitsiyenti, N/m.">k</span>
+</div>
+<div class="formula">ν = 1/T</div>
+<p class="note">Demak, massa oshsa T oshadi va tebranish sekinlashadi. Prujina bikrligi k oshsa T kamayadi va tebranish tezlashadi.</p>
+</div>
+
+<div class="card">
+<h3>⚡ Energiya almashinuvi</h3>
+<p>Yuk eng chekka nuqtada bo‘lganda elastik potensial energiya katta, tezlik esa kichik bo‘ladi. Muvozanat yaqinida tezlik eng katta bo‘lib, kinetik energiya ortadi. Ideal holatda energiyalar yig‘indisi saqlanadi.</p>
+<div class="energy"><span id="keBar" class="ke" style="width:50%"></span><span id="peBar" class="pe" style="width:50%"></span></div>
+<div class="legend"><span><i class="dot ke"></i>Kinetik</span><span><i class="dot pe"></i>Potensial</span></div>
+</div>
+
+<div class="card">
+<h3>🎛 Interaktiv prujinali mayatnik</h3>
+<div class="sim">
+<div><canvas id="springCanvas"></canvas>
+<p class="note">Animatsiya: amplituda va muvozanat chizig‘i ko‘rsatiladi. START bosilganda yuk yuqoriga-pastga tebranadi.</p></div>
+<div class="controls">
+<div class="control"><label>Massa m <span id="mVal">1.00 kg</span></label><input id="m" type="range" min=".2" max="5" step=".1" value="1"></div>
+<div class="control"><label>Bikrlik k <span id="kVal">20 N/m</span></label><input id="k" type="range" min="5" max="80" step="1" value="20"></div>
+<div class="control"><label>Amplituda A <span id="aVal">80 px</span></label><input id="amp" type="range" min="25" max="130" step="1" value="80"></div>
+<div class="metrics"><div class="metric"><b id="springT">—</b>T (s)</div><div class="metric"><b id="springNu">—</b>ν (Hz)</div><div class="metric"><b id="springA">—</b>A (px)</div></div>
+<div><button class="btn" onclick="spring.running=true">▶ START</button> <button class="btn secondary" onclick="spring.running=false">⏸ PAUSE</button> <button class="btn secondary" onclick="resetSpring()">↺ RESET</button></div>
+</div></div></div>
+
+<div class="card"><h3>🏠 Hayotiy misollar</h3><div class="grid3"><div>🚗 Avtomobil amortizatori</div><div>⚖️ Prujinali tarozi</div><div>🛠 Mexanik tebranish tizimlari</div></div></div>
+</section>
+
+<section id="matematik">
+<h2>2. Matematik mayatniklar</h2>
+<div class="grid">
+<div class="card definition"><h3>📘 Matematik mayatnik nima?</h3>
+<p>Matematik mayatnik — cho‘zilmaydigan va massasi juda kichik deb olinadigan ipga osilgan kichik yukning tortish kuchi ta’sirida tebranish modelidir.</p>
+<h3>Asosiy qismlar</h3><ul><li>osilish nuqtasi;</li><li>ip;</li><li>kichik yuk;</li><li>uzunlik <b>l</b>;</li><li>vertikal muvozanat chizig‘i.</li></ul></div>
+<div class="card"><h3>🔄 Asosiy tushunchalar</h3>
+<p><b>Muvozanat</b> — yuk eng past nuqtada.</p><p><b>Amplituda</b> — muvozanatdan eng katta burchak yoki siljish.</p><p><b>Davr T</b> — bir to‘liq chap-o‘ng-chap tebranish vaqti.</p><p><b>Chastota ν</b> — bir sekunddagi tebranishlar soni.</p></div>
+</div>
+<div class="card">
+<h3>📐 Formula</h3><div class="formula">T = 2π√(l/g)</div>
+<div class="vars"><span class="var" data-tip="T — tebranish davri, sekund (s).">T</span><span class="var" data-tip="l — mayatnik uzunligi, metr (m).">l</span><span class="var" data-tip="g — erkin tushish tezlanishi, odatda 9.8 m/s² olinadi.">g</span></div>
+<div class="formula">ν = 1/T</div>
+<p class="note">Kichik tebranishlar uchun davr yuk massasiga bog‘liq emas. l oshsa T oshadi, g oshsa T kamayadi.</p>
+</div>
+
+<div class="card">
+<h3>🎛 Interaktiv matematik mayatnik</h3>
+<div class="sim">
+<div><canvas id="pendCanvas"></canvas><p class="note">Boshlang‘ich burchak kattaroq bo‘lsa, animatsiya kengroq ko‘rinadi. Formula esa kichik burchaklar uchun aniqroq.</p></div>
+<div class="controls">
+<div class="control"><label>Uzunlik l <span id="lVal">1.00 m</span></label><input id="len" type="range" min=".3" max="3" step=".05" value="1"></div>
+<div class="control"><label>Boshlang‘ich burchak <span id="angVal">20°</span></label><input id="angle" type="range" min="5" max="45" step="1" value="20"></div>
+<div class="control"><label>g <span id="gVal">9.80 m/s²</span></label><input id="grav" type="range" min="1" max="15" step=".1" value="9.8"></div>
+<div class="metrics"><div class="metric"><b id="pendT">—</b>T (s)</div><div class="metric"><b id="pendNu">—</b>ν (Hz)</div><div class="metric"><b id="pendL">—</b>l (m)</div></div>
+<div><button class="btn" onclick="pend.running=true">▶ START</button> <button class="btn secondary" onclick="pend.running=false">⏸ PAUSE</button> <button class="btn secondary" onclick="resetPend()">↺ RESET</button></div>
+</div></div></div>
+
+<div class="card"><h3>🏠 Hayotdagi qo‘llanishlar</h3><ul><li>mayatnikli soatlar;</li><li>tebranish va vaqtni o‘lchash tajribalari;</li><li>seysmologik va geofizik o‘lchashlarning ayrim modellarida;</li><li>o‘quv laboratoriya tajribalari.</li></ul></div>
+</section>
+
+<section id="taqqoslash">
+<h2>Taqqoslash</h2>
+<div class="card">
+<table><thead><tr><th>Mezon</th><th>🔵 Prujinali mayatnik</th><th>🟣 Matematik mayatnik</th></tr></thead>
+<tbody>
+<tr><td>Tuzilishi</td><td>Prujina + yuk</td><td>Ip + kichik yuk</td></tr>
+<tr><td>Tebranish sababi</td><td>Elastik qaytaruvchi kuch</td><td>Og‘irlik kuchining tangensial tashkil etuvchisi</td></tr>
+<tr><td>Davr formulasi</td><td>T = 2π√(m/k)</td><td>T = 2π√(l/g), kichik tebranishlarda</td></tr>
+<tr><td>Asosiy parametrlar</td><td>m, k</td><td>l, g</td></tr>
+<tr><td>Massa ta’siri</td><td>m oshsa T oshadi</td><td>Ideal modelda T massaga bog‘liq emas</td></tr>
+<tr><td>Uzunlik ta’siri</td><td>Asosiy formulada yo‘q</td><td>l oshsa T oshadi</td></tr>
+<tr><td>Prujina bikrligi</td><td>k oshsa T kamayadi</td><td>Qo‘llanmaydi</td></tr>
+<tr><td>Qo‘llanilishi</td><td>Amortizator, prujinali tarozi, tebranish tizimlari</td><td>Soat, laboratoriya, vaqt va g ni o‘rganish</td></tr>
+</tbody></table>
+</div>
+</section>
+
+<section id="formulalar">
+<h2>Formulalar</h2>
+<div class="grid3">
+<div class="card"><h3>🔵 Prujina</h3><div class="formula">T = 2π√(m/k)</div><p>Davr massaga to‘g‘ri, bikrlikning kvadrat ildiziga teskari bog‘liq.</p></div>
+<div class="card"><h3>🔁 Chastota</h3><div class="formula">ν = 1/T</div><p>Davr qancha kichik bo‘lsa, chastota shuncha katta.</p></div>
+<div class="card"><h3>🟣 Matematik</h3><div class="formula">T = 2π√(l/g)</div><p>Kichik tebranishlar uchun: l oshsa davr oshadi.</p></div>
+</div>
+<p class="note">Formuladagi harf ustiga bosing — uning ma’nosi va birligi chiqadi.</p>
+</section>
+
+<section id="masalalar">
+<h2>Amaliy masalalar</h2>
+<div class="grid">
+<div class="card">
+<h3>1-masala — Prujinali mayatnik</h3>
+<div class="problem"><b>Berilgan:</b> m = 1 kg, k = 4 N/m.</div>
+<div class="problem"><b>Formula:</b> T = 2π√(m/k)</div>
+<div class="problem"><b>Hisoblash:</b> T = 2π√(1/4) = π s ≈ 3.14 s.</div>
+<button class="btn secondary" onclick="toggle('ans1')">Javobni ko‘rsatish</button><div id="ans1" class="reveal"><b>Javob:</b> T ≈ 3.14 s, ν ≈ 0.318 Hz.</div>
+</div>
+<div class="card">
+<h3>2-masala — Prujinali mayatnik</h3>
+<div class="problem"><b>Berilgan:</b> m = 2 kg, k = 8 N/m.</div>
+<div class="problem"><b>Formula:</b> T = 2π√(m/k)</div>
+<div class="problem"><b>Hisoblash:</b> T = 2π√(2/8) = π s ≈ 3.14 s.</div>
+<button class="btn secondary" onclick="toggle('ans2')">Javobni ko‘rsatish</button><div id="ans2" class="reveal"><b>Javob:</b> T ≈ 3.14 s.</div>
+</div>
+<div class="card">
+<h3>3-masala — Matematik mayatnik</h3>
+<div class="problem"><b>Berilgan:</b> l = 1 m, g = 9.8 m/s².</div>
+<div class="problem"><b>Formula:</b> T = 2π√(l/g)</div>
+<div class="problem"><b>Hisoblash:</b> T = 2π√(1/9.8) ≈ 2.01 s.</div>
+<button class="btn secondary" onclick="toggle('ans3')">Javobni ko‘rsatish</button><div id="ans3" class="reveal"><b>Javob:</b> T ≈ 2.01 s, ν ≈ 0.498 Hz.</div>
+</div>
+<div class="card">
+<h3>4-masala — Matematik mayatnik</h3>
+<div class="problem"><b>Berilgan:</b> l = 0.25 m, g = 9.8 m/s².</div>
+<div class="problem"><b>Formula:</b> T = 2π√(l/g)</div>
+<div class="problem"><b>Hisoblash:</b> T = 2π√(0.25/9.8) ≈ 1.00 s.</div>
+<button class="btn secondary" onclick="toggle('ans4')">Javobni ko‘rsatish</button><div id="ans4" class="reveal"><b>Javob:</b> T ≈ 1.00 s, ν ≈ 1.00 Hz.</div>
+</div>
+</div>
+</section>
+
+<section id="test">
+<h2>Interaktiv test</h2>
+<div id="quiz"></div>
+<div class="card" id="result" style="display:none">
+<div class="score" id="scoreText"></div><p id="resultText"></p>
+<button class="btn secondary" onclick="location.reload()">↺ Testni qayta ishlash</button>
+</div>
+</section>
+
+<section id="xulosa">
+<h2>Xulosa</h2>
+<div class="grid3">
+<div class="card"><b>1.</b> Prujinali mayatnikda qaytaruvchi kuch elastiklik bilan bog‘liq.</div>
+<div class="card"><b>2.</b> Prujina uchun T = 2π√(m/k).</div>
+<div class="card"><b>3.</b> Matematik mayatnik uchun T = 2π√(l/g), kichik tebranishlarda.</div>
+<div class="card"><b>4.</b> ν = 1/T: davr kamayganda chastota ortadi.</div>
+<div class="card"><b>5.</b> Prujinali mayatnikda massa muhim; ideal matematik mayatnikda massa davrga ta’sir qilmaydi.</div>
+</div>
+<div class="card"><h3>🎯 O‘zingizni tekshiring</h3><p>Endi sliderlarni o‘zgartirib, “m↑ → T↑”, “k↑ → T↓”, “l↑ → T↑”, “g↑ → T↓” munosabatlarini amalda kuzating.</p></div>
+</section>
+</main>
+
+<div id="tip" class="tooltip"></div>
+<div class="footer">10-sinf Fizika • 16-mavzu • Mustaqil offline HTML darslik</div>
+
+<script>
+const navItems=[
+ ['kirish','Kirish'],['prujina','Prujinali mayatnik'],['matematik','Matematik mayatnik'],
+ ['taqqoslash','Taqqoslash'],['masalalar','Masalalar'],['test','Test'],['xulosa','Xulosa']
+];
+const nav=document.getElementById('nav');
+navItems.forEach(([id,t])=>{
+ const b=document.createElement('button'); b.textContent=t; b.onclick=()=>document.getElementById(id).scrollIntoView({behavior:'smooth'}); b.dataset.id=id; nav.appendChild(b);
+});
+function updateNav(){
+ const y=scrollY+180;
+ let current=navItems[0][0];
+ navItems.forEach(([id])=>{if(document.getElementById(id).offsetTop<=y)current=id});
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.id===current));
+ const max=document.documentElement.scrollHeight-innerHeight;
+ document.getElementById('progressBar').style.width=(max>0?scrollY/max*100:0)+'%';
+}
+addEventListener('scroll',updateNav); updateNav();
+
+document.getElementById('themeBtn').onclick=()=>document.body.classList.toggle('dark');
+
+document.querySelectorAll('.var').forEach(v=>{
+ v.onclick=()=>{const tip=document.getElementById('tip');tip.textContent=v.dataset.tip;tip.style.display='block';tip.style.left=Math.min(innerWidth-260,v.getBoundingClientRect().left)+'px';tip.style.top=(v.getBoundingClientRect().bottom+8)+'px';setTimeout(()=>tip.style.display='none',2500)}
+});
+
+function toggle(id){document.getElementById(id).classList.toggle('show')}
+
+const spring={running:true,t0:performance.now(),phase:0};
+const pend={running:true,phase:0};
+const sc=document.getElementById('springCanvas'), pc=document.getElementById('pendCanvas');
+function resizeCanvas(c){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;c.width=r.width*d;c.height=r.height*d;const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0)}
+function springParams(){let m=+mEl.value,k=+kEl.value,A=+ampEl.value,T=2*Math.PI*Math.sqrt(m/k),nu=1/T;return{m,k,A,T,nu}}
+const mEl=document.getElementById('m'),kEl=document.getElementById('k'),amp=document.getElementById('amp');
+function updateSpring(){
+ const p=springParams();
+ document.getElementById('mVal').textContent=p.m.toFixed(1)+' kg';
+ document.getElementById('kVal').textContent=p.k.toFixed(0)+' N/m';
+ document.getElementById('aVal').textContent=p.A.toFixed(0)+' px';
+ document.getElementById('springT').textContent=p.T.toFixed(2);
+ document.getElementById('springNu').textContent=p.nu.toFixed(2);
+ document.getElementById('springA').textContent=p.A.toFixed(0);
+}
+[mEl,kEl,amp].forEach(e=>e.oninput=updateSpring);
+
+function drawSpring(t){
+ const r=sc.getBoundingClientRect(),w=r.width,h=r.height,x=sc.getContext('2d');x.clearRect(0,0,w,h);
+ const p=springParams(), cx=w/2, eq=h*.57, y=eq+(p.A*Math.sin(spring.phase));
+ x.strokeStyle='#94a3b8';x.setLineDash([6,6]);x.beginPath();x.moveTo(25,eq);x.lineTo(w-25,eq);x.stroke();x.setLineDash([]);
+ x.fillStyle='#475569';x.font='14px Arial';x.fillText('Muvozanat',25,eq-8);
+ const top=45, bottom=y-24, coils=15, step=(bottom-top)/coils;
+ x.strokeStyle='#2563eb';x.lineWidth=3;x.beginPath();x.moveTo(cx,top);
+ for(let i=0;i<coils;i++){const yy=top+i*step+step/2; x.lineTo(cx-27,yy);x.lineTo(cx+27,yy+step/2)}
+ x.lineTo(cx,bottom);x.stroke();
+ x.fillStyle='#64748b';x.fillRect(cx-42,y-18,84,36);
+ x.fillStyle='white';x.font='bold 15px Arial';x.textAlign='center';x.fillText(p.m.toFixed(1)+' kg',cx,y+5);x.textAlign='left';
+ x.strokeStyle='#7c3aed';x.setLineDash([3,4]);x.beginPath();x.moveTo(cx+60,eq);x.lineTo(cx+60,y);x.stroke();x.setLineDash([]);
+ x.fillStyle='#7c3aed';x.fillText('A',cx+68,(eq+y)/2);
+ const q=(Math.sin(spring.phase)+1)/2;document.getElementById('keBar').style.width=(100*(1-q))+'%';document.getElementById('peBar').style.width=(100*q)+'%';
+ if(spring.running)spring.phase+=(2*Math.PI/p.T)/60;
+}
+function resetSpring(){spring.phase=0;spring.running=false}
+function resizeAll(){resizeCanvas(sc);resizeCanvas(pc)} addEventListener('resize',resizeAll);resizeAll();updateSpring();
+
+const len=document.getElementById('len'), angle=document.getElementById('angle'), grav=document.getElementById('grav');
+function pendParams(){let l=+len.value,a=+angle.value,g=+grav.value,T=2*Math.PI*Math.sqrt(l/g),nu=1/T;return{l,a,g,T,nu}}
+function updatePend(){
+ const p=pendParams();
+ document.getElementById('lVal').textContent=p.l.toFixed(2)+' m';
+ document.getElementById('angVal').textContent=p.a.toFixed(0)+'°';
+ document.getElementById('gVal').textContent=p.g.toFixed(2)+' m/s²';
+ document.getElementById('pendT').textContent=p.T.toFixed(2);
+ document.getElementById('pendNu').textContent=p.nu.toFixed(2);
+ document.getElementById('pendL').textContent=p.l.toFixed(2);
+}
+[len,angle,grav].forEach(e=>e.oninput=updatePend);updatePend();
+
+function drawPend(t){
+ const r=pc.getBoundingClientRect(),w=r.width,h=r.height,x=pc.getContext('2d');x.clearRect(0,0,w,h);
+ const p=pendParams(), ox=w/2, oy=65, scale=Math.min(105,p.l*75), theta=(p.a*Math.PI/180)*Math.sin(pend.phase);
+ const bx=ox+scale*Math.sin(theta), by=oy+scale*Math.cos(theta);
+ x.strokeStyle='#94a3b8';x.setLineDash([6,6]);x.beginPath();x.moveTo(ox,oy);x.lineTo(ox,oy+scale+40);x.stroke();x.setLineDash([]);
+ x.fillStyle='#475569';x.font='14px Arial';x.fillText('Muvozanat chizig‘i',ox+8,oy+scale+32);
+ x.fillStyle='#334155';x.beginPath();x.arc(ox,oy,8,0,7);x.fill();
+ x.strokeStyle='#2563eb';x.lineWidth=4;x.beginPath();x.moveTo(ox,oy);x.lineTo(bx,by);x.stroke();
+ x.fillStyle='#8b5cf6';x.beginPath();x.arc(bx,by,18,0,7);x.fill();
+ x.fillStyle='#fff';x.font='bold 12px Arial';x.textAlign='center';x.fillText('m',bx,by+4);x.textAlign='left';
+ x.fillStyle='#0f172a';x.font='13px Arial';x.fillText('l = '+p.l.toFixed(2)+' m',ox+10,oy+20);
+ if(pend.running)pend.phase+=(2*Math.PI/p.T)/60;
+}
+function resetPend(){pend.phase=0;pend.running=false}
+
+const questions=[
+['Prujinali mayatnikning davri qaysi formula bilan topiladi?',['T = 2π√(m/k)','T = 2π√(l/g)','ν = T','T = m×k'],0],
+['Chastota bilan davr orasidagi bog‘lanish qaysi?',['ν = T','ν = 1/T','ν = T²','ν = 2T'],1],
+['Prujinali mayatnikda massa oshsa, boshqa shartlar o‘zgarmasa nima bo‘ladi?',['Davr kamayadi','Davr o‘zgarmaydi','Davr ortadi','Chastota hamisha 0 bo‘ladi'],2],
+['Prujina bikrligi k oshirilsa, davr qanday o‘zgaradi?',['Ortadi','Kamayadi','O‘zgarmaydi','Avval 0 bo‘ladi'],1],
+['Matematik mayatnikning kichik tebranishlar uchun davri qaysi?',['T = 2π√(l/g)','T = 2π√(m/k)','T = l/g','T = g/l'],0],
+['Matematik mayatnik uzunligi oshsa nima kuzatiladi?',['Davr kamayadi','Davr ortadi','Chastota doim ortadi','Massa ortadi'],1],
+['Ideal matematik mayatnik davri qaysi kattalikka bevosita bog‘liq emas?',['Uzunlikka','g ga','Yuk massasiga','Hech qaysisiga'],2],
+['g oshirilsa, matematik mayatnikning davri qanday o‘zgaradi?',['Ortadi','Kamayadi','O‘zgarmaydi','Cheksiz ortadi'],1],
+['Muvozanat holatida prujinali yukning tezligi ideal tebranishda qanday bo‘ladi?',['Eng katta','Nol','Har doim o‘zgarmas','Aniqlab bo‘lmaydi'],0],
+['Qaysi juftlik to‘g‘ri moslangan?',['Prujina — l; matematik — k','Prujina — m,k; matematik — l,g','Prujina — g; matematik — m','Ikkalasida ham faqat massa'],1]
+];
+const quiz=document.getElementById('quiz');let score=0,answered=0;
+questions.forEach((q,i)=>{
+ const card=document.createElement('div');card.className='card test-card';
+ card.innerHTML='<h3>'+(i+1)+'. '+q[0]+'</h3>';
+ q[1].forEach((opt,j)=>{
+  const b=document.createElement('button');b.className='option';b.textContent=opt;
+  b.onclick=()=>{
+   if(card.dataset.done)return;card.dataset.done='1';answered++;
+   if(j===q[2]){b.classList.add('correct');score++;fb.textContent='✓ TO‘G‘RI';fb.style.color='var(--good)'}
+   else{b.classList.add('wrong');card.querySelectorAll('.option')[q[2]].classList.add('correct');fb.textContent='✗ NOTO‘G‘RI';fb.style.color='var(--bad)'}
+   card.querySelectorAll('.option').forEach(x=>x.disabled=true);if(answered===questions.length)showResult();
+  };card.appendChild(b);
+ });
+ const fb=document.createElement('div');fb.className='feedback';card.appendChild(fb);quiz.appendChild(card);
+});
+function showResult(){
+ const pct=Math.round(score/questions.length*100);
+ let grade=pct>=90?5:pct>=75?4:pct>=60?3:2;
+ document.getElementById('result').style.display='block';
+ document.getElementById('scoreText').textContent=`Natija: ${score}/${questions.length} — ${pct}%`;
+ document.getElementById('resultText').textContent=`Baho: ${grade}. ${grade>=4?'Juda yaxshi!':'Formulalarni yana bir marta interaktiv simulyatsiyalarda tekshirib ko‘ring.'}`;
+ document.getElementById('result').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function loop(t){drawSpring(t);drawPend(t);requestAnimationFrame(loop)} requestAnimationFrame(loop);
+</script>
+</body>
+</html>
